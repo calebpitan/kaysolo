@@ -4,6 +4,7 @@ import {
   Input,
   NumberInput,
   Select,
+  Textarea,
   ThemeConfig,
   withDefaultColorScheme,
 } from '@chakra-ui/react';
@@ -194,5 +195,10 @@ NumberInput.defaultProps = {
 
 Select.defaultProps = {
   ...Select.defaultProps,
+  focusBorderColor: 'brand.500',
+};
+
+Textarea.defaultProps = {
+  ...Textarea.defaultProps,
   focusBorderColor: 'brand.500',
 };

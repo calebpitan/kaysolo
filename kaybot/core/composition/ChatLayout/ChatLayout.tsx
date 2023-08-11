@@ -9,7 +9,13 @@ export interface ChatLayoutProps {
 
 export const ChatLayout = ({ children }: ChatLayoutProps) => {
   return (
-    <Box height="full" bgGradient="linear(to-b, brand.500, transparent)">
+    <Box
+      height="full"
+      // bgGradient="linear(to-b, brand.500, transparent)"
+      bgImage="url(/images/chat-background.png)"
+      bgRepeat="no-repeat"
+      bgSize="cover"
+    >
       <AppBar />
 
       <Box height={`calc(100% - ${APP_BAR_HEIGHT}px)`}>{children}</Box>

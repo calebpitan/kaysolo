@@ -13,11 +13,13 @@ export const ChatBox = ({ children, ...rest }: ChatBoxProps) => {
       backdropFilter="auto"
       backdropBlur="xl"
       backdropSaturate="180%"
-      bgColor="whiteAlpha.700"
-      borderRadius="lg"
+      bgColor="whiteAlpha.400"
       position="absolute"
-      height={`calc(100% - ${APP_BAR_HEIGHT}px)`}
+      borderTopRadius="2xl"
+      borderRadius={{ md: '2xl' }}
       width={600}
+      maxWidth="full"
+      height={`calc(100% - ${APP_BAR_HEIGHT}px)`}
       top={`${APP_BAR_HEIGHT}px`}
       {...rest}
     >

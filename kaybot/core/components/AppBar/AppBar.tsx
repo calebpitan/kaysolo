@@ -6,7 +6,7 @@ export const AppBar = () => {
   return (
     <Flex
       p={3}
-      bgGradient="linear(to-b, brand.500, transparent)"
+      // bgGradient="linear(to-b, brand.500, transparent)"
       color="brand.text.500"
       height={`${APP_BAR_HEIGHT}px`}
       alignItems="center"
