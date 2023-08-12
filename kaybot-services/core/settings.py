@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     JWT_RS256_KEY: str = config("JWT_RS256_KEY", cast=str)
     TOKEN_EXPIRY: str = config("TOKEN_EXPIRY", cast=str)
 
-    VERSION: float = 1.0
+    VERSION: str = "1.0"
 
 
 kaybot_settings = Settings()
