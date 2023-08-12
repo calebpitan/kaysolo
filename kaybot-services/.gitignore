@@ -5,3 +5,4 @@ lib
 .keychain
 .env
 pyvenv.cfg
+__pycache__

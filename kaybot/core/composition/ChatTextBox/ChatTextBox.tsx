@@ -1,12 +1,15 @@
 'use client';
 
 import { Box, FlexProps, Flex, SystemStyleObject, Textarea, IconButton, Icon } from '@/chakra-ui/react';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, FocusEvent, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
+
+import styles from './index.module.css';
 
 export interface ChatTextBoxProps extends FlexProps {}
 
 export const ChatTextBox = (props: ChatTextBoxProps) => {
+  const [value, setValue] = useState('');
   const sty: SystemStyleObject = {
     py: 0,
     fontSize: 'md',
@@ -18,6 +21,8 @@ export const ChatTextBox = (props: ChatTextBoxProps) => {
     const box = evt.target.parentElement;
 
     if (!box) return;
+
+    setValue(evt.target.value);
 
     box.dataset.value = evt.target.value;
   };
@@ -34,6 +39,7 @@ export const ChatTextBox = (props: ChatTextBoxProps) => {
       borderRadius="xl"
       borderWidth={1}
       borderStyle="solid"
+      className={styles.chat_text_box__wrapper}
       borderColor="gray.500"
       {...props}
     >
@@ -59,6 +65,7 @@ export const ChatTextBox = (props: ChatTextBoxProps) => {
           height="full"
           resize="none"
           overflow="auto"
+          value={value}
           onChange={handleChange}
           focusBorderColor="transparent"
           placeholder="Send a message"
