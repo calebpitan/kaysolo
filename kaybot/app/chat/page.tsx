@@ -1,8 +1,8 @@
 import { Flex } from '@/chakra-ui/react';
 
-import { ChatBox } from '@/core/components/ChatBox/ChatBox';
+import { ChatBox } from '@/core/components/ChatBox';
+import { ChatTextBox } from '@/core/components/ChatTextBox';
 import { ChatLayout } from '@/core/composition/ChatLayout';
-import { ChatTextBox } from '@/core/composition/ChatTextBox';
 
 const Chat = () => {
   return (
