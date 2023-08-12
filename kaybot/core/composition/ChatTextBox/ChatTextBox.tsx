@@ -8,7 +8,10 @@ export interface ChatTextBoxProps extends FlexProps {}
 
 export const ChatTextBox = (props: ChatTextBoxProps) => {
   const sty: SystemStyleObject = {
+    py: 0,
+    fontSize: 'md',
     gridArea: '1 / 1',
+    lineHeight: 'short',
   };
 
   const handleChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -22,55 +25,49 @@ export const ChatTextBox = (props: ChatTextBoxProps) => {
   return (
     <Flex
       px={3}
-      py={2}
+      py={1.5}
       width="full"
       overflow="auto"
-      borderRadius="xl"
+      alignItems="center"
       position="relative"
+      maxHeight={`${22 * 9}px`}
+      borderRadius="xl"
       borderWidth={1}
       borderStyle="solid"
       borderColor="gray.500"
-      boxSizing="border-box"
       {...props}
     >
       <Box
         width="full"
-        maxHeight={`${24 * 9}px`}
         display="inline-grid"
         position="relative"
         alignItems="center"
         _after={{
           ...sty,
-          py: 1,
-          boxSizing: 'border-box',
           content: 'attr(data-value) " "',
           visibility: 'hidden',
           whiteSpace: 'pre-wrap',
-          fontSize: 'var(--chakra-fontSizes-md)',
         }}
       >
         <Textarea
           size="xs"
           px={0}
-          py={1}
-          my="auto"
           rows={1}
           border={0}
           color="gray.100"
           width="full"
           height="full"
           resize="none"
-          fontSize="md"
           overflow="auto"
-          gridArea={sty.gridArea!.toString()}
           onChange={handleChange}
           focusBorderColor="transparent"
           placeholder="Send a message"
           _placeholder={{ color: 'gray.500' }}
+          {...(sty as any)}
         />
       </Box>
 
-      <Box alignSelf="flex-end" ms={3}>
+      <Box alignSelf="flex-end" ms={3} position="sticky" top={'calc(100% - 2rem)'} right={0}>
         <IconButton aria-label="Send" borderRadius="xl" size="sm">
           <Icon as={IoSend} />
         </IconButton>

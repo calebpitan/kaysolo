@@ -9,7 +9,7 @@ const Chat = () => {
     <ChatLayout>
       <Flex justifyContent="center" height="full">
         <ChatBox px={3} justifyContent="center" alignItems="flex-end">
-          <ChatTextBox mb={4} />
+          <ChatTextBox mb={8} />
         </ChatBox>
       </Flex>
     </ChatLayout>
