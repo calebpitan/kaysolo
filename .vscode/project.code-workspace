@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "KayBot",
+      "path": "../"
+    },
+    {
+      "name": "Client",
+      "path": "../kaybot"
+    },
+    {
+      "name": "Server",
+      "path": "../kaybot-services"
+    }
+  ],
+  "settings": {}
+}
