@@ -1,3 +1,7 @@
+venv
 bin
 include
 lib
+.keychain
+.env
+pyvenv.cfg
