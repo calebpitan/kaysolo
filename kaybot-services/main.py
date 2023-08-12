@@ -19,5 +19,10 @@ app.add_middleware(
 )
 
 
+@app.get("/", tags=["Root"])
+async def root():
+    return {"title": app.title, "description": app.description, "version": app.version}
+
+
 if __name__ == "__main__":
     uvicorn.run("main:app", host="127.0.0.1", port=kaybot_settings.PORT, reload=True)

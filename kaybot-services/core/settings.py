@@ -9,8 +9,7 @@ class Settings(BaseSettings):
     APP_CODE_NAME: str = config("APP_CODE_NAME", cast=str)
     PORT: int = config("PORT", cast=int)
 
-    DESCRIPTION: str = """KayBot is a chatbot that can be utilized for lead
-    generation in the field of digital marketing."""
+    DESCRIPTION: str = "KayBot is a chatbot that can be utilized for lead generation in the field of digital marketing."
 
     JWT_RS256_PUB_KEY: str = config("JWT_RS256_PUB_KEY", cast=str)
     JWT_RS256_KEY: str = config("JWT_RS256_KEY", cast=str)
