@@ -1,19 +1,23 @@
-import { Flex, Text } from '@/chakra-ui/react';
+'use client';
 
-export const APP_BAR_HEIGHT = 50;
+import { Flex, FlexProps, useColorModeValue } from '@/chakra-ui/react';
+import { Typography } from '../Typography';
+import { APP_BAR_HEIGHT } from '@/core/utils';
 
-export const AppBar = () => {
+export interface AppBarProps extends FlexProps {}
+
+export const AppBar = (props: AppBarProps) => {
   return (
     <Flex
       p={3}
-      // bgGradient="linear(to-b, brand.500, transparent)"
-      color="brand.text.500"
-      height={`${APP_BAR_HEIGHT}px`}
       alignItems="center"
+      height={`${APP_BAR_HEIGHT}px`}
+      color={useColorModeValue('blackAlpha.400', 'whiteAlpha.500')}
+      {...props}
     >
-      <Text as="div" align="center" fontWeight={700} textStyle="h4" width="full">
-        KayBot
-      </Text>
+      <Typography as="div" align="center" fontWeight={900} textStyle="h4" width="full" letterSpacing="tighter">
+        KAYBOT
+      </Typography>
     </Flex>
   );
 };

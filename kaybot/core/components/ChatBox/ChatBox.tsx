@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from '@/chakra-ui/react';
+import { APP_BAR_HEIGHT } from '@/core/utils';
 
 import { ReactNode } from 'react';
-import { APP_BAR_HEIGHT } from '../AppBar';
 
 export interface ChatBoxProps extends FlexProps {
   children: ReactNode;

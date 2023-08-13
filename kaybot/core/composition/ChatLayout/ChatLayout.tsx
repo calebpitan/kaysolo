@@ -1,6 +1,7 @@
 import { Box } from '@/chakra-ui/react';
 
-import { APP_BAR_HEIGHT, AppBar } from '@/core/components/AppBar';
+import { AppBar } from '@/core/components/AppBar';
+import { APP_BAR_HEIGHT } from '@/core/utils';
 import { ReactNode } from 'react';
 
 export interface ChatLayoutProps {
@@ -11,12 +12,11 @@ export const ChatLayout = ({ children }: ChatLayoutProps) => {
   return (
     <Box
       height="full"
-      // bgGradient="linear(to-b, brand.500, transparent)"
       bgImage="url(/images/chat-background.png)"
       bgRepeat="no-repeat"
       bgSize="cover"
     >
-      <AppBar />
+      <AppBar color="whiteAlpha.600" />
 
       <Box height={`calc(100% - ${APP_BAR_HEIGHT}px)`}>{children}</Box>
     </Box>
