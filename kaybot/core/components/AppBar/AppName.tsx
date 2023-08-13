@@ -1,22 +1,20 @@
 'use client';
 
 import { Flex, FlexProps, useColorModeValue } from '@/chakra-ui/react';
-
-import { APP_BAR_HEIGHT } from '@/core/utils';
 import { Typography } from '../Typography';
 
-export interface AppBarProps extends FlexProps {}
+export interface AppNameProps extends FlexProps {}
 
-export const AppBar = (props: AppBarProps) => {
+export const AppName = (props: AppNameProps) => {
   return (
     <Flex
       p={3}
       alignItems="center"
-      height={`${APP_BAR_HEIGHT}px`}
       color={useColorModeValue('blackAlpha.400', 'whiteAlpha.500')}
+      textStyle="h4"
       {...props}
     >
-      <Typography as="div" align="center" fontWeight={900} textStyle="h4" width="full" letterSpacing="tighter">
+      <Typography as="div" align="center" fontWeight={900} width="full" letterSpacing="tighter">
         KAYBOT
       </Typography>
     </Flex>
