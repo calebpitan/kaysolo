@@ -1,7 +1,8 @@
 import { USERNAME_REGEX } from '@/core/utils';
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
 
+@Exclude()
 export class SignupCredentials {
   @IsNotEmpty({ message: 'First name cannot be empty' })
   @Expose()
