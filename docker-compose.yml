@@ -1,0 +1,98 @@
+version: "3.8"
+
+networks:
+  server: # web_server
+  cache: # redis
+  database: # postgres
+    driver: bridge
+
+services:
+  web_client:
+    build:
+      context: .
+      target: client-build
+    container_name: kaybot_client
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+      - 9339:9339
+    entrypoint: "yarn dev"
+    depends_on:
+      - web_server
+    networks:
+      - server
+    volumes:
+      - "./kaybot:${CLIENT_WORKDIR}"
+      - "./kaybot/node_modules:${CLIENT_WORKDIR}/node_modules"
+    environment:
+      - SERVER_ENDPOINT=kaybot_server
+
+  web_server:
+    build:
+      context: .
+      target: server
+    container_name: kaybot_server
+    ports:
+      - ${PORT}:${PORT}
+    command: "uvicorn main:app --host='0.0.0.0' --port=${PORT} --reload"
+    networks:
+      - server
+      - cache
+      - database
+    volumes:
+      - "./kaybot-services:${SERVER_WORKDIR}"
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - REDIS_URL=redis://kaybot_services_cache:6380 # the container name
+      - POSTGRES_HOST=kaybot_services_postgres # the container name
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  redis:
+    image: "redis:alpine"
+    container_name: kaybot_services_cache
+    expose:
+      - 6380
+    ports:
+      - 6380:6380
+    networks:
+      - cache
+    restart: unless-stopped
+
+  postgres:
+    container_name: kaybot_services_postgres
+    image: postgres:15.4-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+      - ./create_database.sh:/docker-entrypoint-initdb.d/create_database.sh
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - database
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: kaybot_services_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5051:80"
+    networks:
+      - database
+    restart: unless-stopped
+
+volumes:
+  node_modules:
+  postgres:
+  pgadmin:
