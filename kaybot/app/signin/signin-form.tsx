@@ -60,7 +60,7 @@ export const SigninForm = () => {
         </PrimaryButton>
       </VStack>
 
-      <VStack alignItems="flex-start" mt={4}>
+      <VStack mt={4} alignItems="center">
         <Link color="brand.500" fontSize="sm" href="/signup">
           Create your account
         </Link>

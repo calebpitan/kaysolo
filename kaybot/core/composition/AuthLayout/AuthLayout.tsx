@@ -11,7 +11,7 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
     <Flex height="full" justifyContent="flex-start" alignItems="center" flexDirection="column">
       <AppBar />
 
-      <Flex height="full" justifyContent="center" alignItems="center" flexDirection="column">
+      <Flex height="full" width="full" justifyContent="center" alignItems="center">
         {children}
       </Flex>
     </Flex>
