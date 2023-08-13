@@ -1,9 +1,10 @@
-import { AppName } from '@/core/components/AppBar';
-
-import styles from './page.module.css';
-import { PrimaryButton } from '@/core/components/Button';
 import { Link } from '@/chakra-ui/next-js';
 import { VStack } from '@/chakra-ui/react';
+
+import { AppName } from '@/core/components/AppBar';
+import { PrimaryButton } from '@/core/components/Button';
+
+import styles from './page.module.css';
 
 export default function Home() {
   return (
