@@ -17,5 +17,10 @@ class Settings(BaseSettings):
 
     VERSION: str = "1.0"
 
+    POSTGRES_PORT: int = config("POSTGRES_PORT", cast=int)
+    POSTGRES_HOST: str = config("POSTGRES_HOST", cast=str)
+    POSTGRES_USER: str = config("POSTGRES_USER", cast=str)
+    POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
+
 
 kaybot_settings = Settings()
