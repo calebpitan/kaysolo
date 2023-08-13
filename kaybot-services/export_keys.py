@@ -22,7 +22,7 @@ def save_env_file(data_dict: dict[str, str | None], file_path: str):
 
 
 def main():
-    key_generation_script_path = abspath("../scripts/jwtrs256.sh")
+    key_generation_script_path = abspath("../jwtrs256.sh")
     pubkfile_path = abspath(".keychain/jwtRS256.key.pub")
     pkfile_path = abspath(".keychain/jwtRS256.key")
     envfile_path = abspath(".env")
