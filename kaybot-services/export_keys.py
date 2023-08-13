@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from os.path import abspath
 from subprocess import run
 
@@ -36,6 +38,15 @@ def main():
         env_dict.update({JWT_RS256_KEY: format(pkfile.read())})
 
     save_env_file(env_dict, envfile_path)
+
+    print(
+        """Signing key-pair generated and saved to:
+        [private key {pkpath}],
+        [public key {pbkpath}],
+        [env file {envfilepath}]""".format(
+            pkpath=pkfile_path, pbkpath=pubkfile_path, envfilepath=envfile_path
+        )
+    )
 
 
 if __name__ == "__main__":
