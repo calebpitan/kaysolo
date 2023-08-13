@@ -22,8 +22,6 @@ export const SignupForm = () => {
 
   const signup: SubmitHandler<SignupCredentials> = (data) => {};
 
-  console.log(formState.errors);
-
   return (
     <Form
       px={{ base: 6, md: 16, xl: 32 }}
