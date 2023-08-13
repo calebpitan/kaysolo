@@ -20,7 +20,7 @@ export const SigninForm = () => {
 
   const { errors } = formState;
 
-  const signin: SubmitHandler<SigninCredentials> = (data) => {};
+  const signin: SubmitHandler<SigninCredentials> = (_data) => {};
 
   return (
     <Form

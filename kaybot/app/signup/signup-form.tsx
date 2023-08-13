@@ -20,7 +20,7 @@ export const SignupForm = () => {
 
   const { errors } = formState;
 
-  const signup: SubmitHandler<SignupCredentials> = (data) => {};
+  const signup: SubmitHandler<SignupCredentials> = (_data) => {};
 
   return (
     <Form

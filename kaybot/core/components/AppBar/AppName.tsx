@@ -14,7 +14,15 @@ export const AppName = (props: AppNameProps) => {
       textStyle="h4"
       {...props}
     >
-      <Typography as="div" align="center" fontWeight={900} width="full" letterSpacing="tighter">
+      <Typography
+        as="div"
+        align="center"
+        color="inherit"
+        fontWeight={900}
+        width="full"
+        letterSpacing="tighter"
+        userSelect="none"
+      >
         KAYBOT
       </Typography>
     </Flex>

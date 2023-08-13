@@ -1,10 +1,10 @@
 'use client';
 
-import { ChakraProvider } from '@/chakra-ui/react';
+import { ChakraProvider, ColorModeScript } from '@/chakra-ui/react';
 import { theme } from '@/core/theme/theme';
 
 import { CacheProvider } from '@chakra-ui/next-js';
-import { ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 
 export interface AppProviderProps {
   children?: ReactNode;
@@ -12,8 +12,12 @@ export interface AppProviderProps {
 
 export function AppProvider({ children }: AppProviderProps) {
   return (
-    <CacheProvider>
-      <ChakraProvider theme={theme}>{children}</ChakraProvider>
-    </CacheProvider>
+    <Fragment>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+
+      <CacheProvider>
+        <ChakraProvider theme={theme}>{children}</ChakraProvider>
+      </CacheProvider>
+    </Fragment>
   );
 }
