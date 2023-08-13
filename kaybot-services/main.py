@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from core.settings import kaybot_settings
 
+from chat.api import router as chat_router
+
 
 app = FastAPI(
     title=kaybot_settings.APP_NAME,
@@ -19,9 +21,16 @@ app.add_middleware(
 )
 
 
+app.include_router(chat_router, prefix="/chat", tags=["Chat"])
+
+
 @app.get("/", tags=["Root"])
 async def root():
-    return {"title": app.title, "description": app.description, "version": app.version}
+    return {
+        "title": app.title,
+        "description": app.description,
+        "version": app.version,
+    }
 
 
 if __name__ == "__main__":
