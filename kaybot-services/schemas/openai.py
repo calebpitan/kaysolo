@@ -1,9 +1,19 @@
-from typing import List, Literal
+from enum import Enum
 from pydantic import BaseModel
 
 
+class ChatCompletionRoleEnum(Enum):
+    system = "system"
+    assistant = "assistant"
+    user = "user"
+
+
+class ChatCompletionObjectEnum(Enum):
+    chat_completion = "chat.completion"
+
+
 class ChatCompletionChoiceMessage(BaseModel):
-    role: Literal["assistant"]
+    role: ChatCompletionRoleEnum
     content: str
 
 
@@ -21,10 +31,10 @@ class ChatCompletionUsage(BaseModel):
 
 class ChatCompletionResponseBody(BaseModel):
     id: str
-    object: Literal["chat.completion"]
+    object: ChatCompletionObjectEnum
     created: int
     model: str
-    choices: List[ChatCompletionChoice]
+    choices: list[ChatCompletionChoice]
     usage: ChatCompletionUsage
 
 
