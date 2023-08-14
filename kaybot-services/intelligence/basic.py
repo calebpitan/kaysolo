@@ -1,6 +1,6 @@
-from enum import Enum
+import openai
 
-from openai import ChatCompletion
+from enum import Enum
 
 from intelligence.personality import advanced_background, personality, simple_background
 
@@ -27,7 +27,7 @@ def generate_prompt(
 
 
 def generate_response(prompt: Prompt):
-    response = ChatCompletion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         temperature=0.5,
         messages=[
