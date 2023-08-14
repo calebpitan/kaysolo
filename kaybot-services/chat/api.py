@@ -4,6 +4,7 @@ from fastapi import HTTPException
 
 from chat.router import router
 from intelligence.basic import generate_prompt, generate_response, PersonalityBackground
+from schemas.openai import ChatCompletionResponse
 from schemas.chat import MessageSend
 
 
