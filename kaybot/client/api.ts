@@ -36,6 +36,131 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  *
  * @export
+ * @interface ChatCompletionChoice
+ */
+export interface ChatCompletionChoice {
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionChoice
+   */
+  index: any;
+  /**
+   *
+   * @type {ChatCompletionChoiceMessage}
+   * @memberof ChatCompletionChoice
+   */
+  message: ChatCompletionChoiceMessage;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionChoice
+   */
+  finish_reason: any;
+}
+/**
+ *
+ * @export
+ * @interface ChatCompletionChoiceMessage
+ */
+export interface ChatCompletionChoiceMessage {
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionChoiceMessage
+   */
+  role: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionChoiceMessage
+   */
+  content: any;
+}
+/**
+ *
+ * @export
+ * @interface ChatCompletionResponse
+ */
+export interface ChatCompletionResponse {
+  /**
+   *
+   * @type {ChatCompletionResponseBody}
+   * @memberof ChatCompletionResponse
+   */
+  response: ChatCompletionResponseBody;
+}
+/**
+ *
+ * @export
+ * @interface ChatCompletionResponseBody
+ */
+export interface ChatCompletionResponseBody {
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionResponseBody
+   */
+  id: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionResponseBody
+   */
+  object: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionResponseBody
+   */
+  created: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionResponseBody
+   */
+  model: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionResponseBody
+   */
+  choices: any;
+  /**
+   *
+   * @type {ChatCompletionUsage}
+   * @memberof ChatCompletionResponseBody
+   */
+  usage: ChatCompletionUsage;
+}
+/**
+ *
+ * @export
+ * @interface ChatCompletionUsage
+ */
+export interface ChatCompletionUsage {
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionUsage
+   */
+  prompt_tokens: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionUsage
+   */
+  completion_tokens: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ChatCompletionUsage
+   */
+  total_token: any;
+}
+/**
+ *
+ * @export
  * @interface HTTPValidationError
  */
 export interface HTTPValidationError {
@@ -145,7 +270,7 @@ export const ChatApiFp = function (configuration?: Configuration) {
     async chatChatMessagePost(
       messageSend: MessageSend,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChatCompletionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.chatChatMessagePost(messageSend, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -169,7 +294,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
     chatChatMessagePost(
       requestParameters: ChatApiChatChatMessagePostRequest,
       options?: AxiosRequestConfig,
-    ): AxiosPromise<any> {
+    ): AxiosPromise<ChatCompletionResponse> {
       return localVarFp
         .chatChatMessagePost(requestParameters.messageSend, options)
         .then((request) => request(axios, basePath));
