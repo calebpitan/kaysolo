@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex } from '@/chakra-ui/react';
+import { Box, Flex, VStack } from '@/chakra-ui/react';
 
 import { ChatBox } from '@/core/components/ChatBox';
 import { ChatTextBox } from '@/core/components/ChatTextBox';
@@ -47,17 +47,17 @@ const Chat = () => {
     <ChatLayout>
       <Flex justifyContent="center" height="full">
         <ChatBox px={3} justifyContent="center" alignItems="flex-end" flexDirection="column">
-          <Flex flexDirection="column" width="full" height="full" pt={4} px={3} fontSize="sm">
+          <VStack width="full" height="full" alignItems="flex-start" py={4} px={1} fontSize="sm" overflow="auto">
             {chat.map((c) => {
               return (
-                <Box key={c.message} bgColor="whiteAlpha.600">
+                <Box key={c.message} p={3} bgColor="whiteAlpha.600" borderRadius="2xl" whiteSpace="pre-wrap">
                   {c.message}
                 </Box>
               );
             })}
-          </Flex>
+          </VStack>
 
-          <ChatTextBox mb={8} onChange={handleChange} onSend={handleSend} />
+          <ChatTextBox my={8} onChange={handleChange} onSend={handleSend} />
         </ChatBox>
       </Flex>
     </ChatLayout>

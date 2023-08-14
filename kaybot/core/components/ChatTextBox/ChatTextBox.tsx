@@ -43,6 +43,7 @@ export const ChatTextBox = ({ onChange, onSend, ...props }: ChatTextBoxProps) =>
       overflow="auto"
       alignItems="center"
       position="relative"
+      minHeight="46px"
       maxHeight={`${22 * 9}px`}
       borderRadius="xl"
       borderWidth={1}

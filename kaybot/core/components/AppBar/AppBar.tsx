@@ -17,7 +17,7 @@ export const AppBar = (props: AppBarProps) => {
       color={useColorModeValue('blackAlpha.400', 'whiteAlpha.500')}
       {...props}
     >
-      <Link href="/" _hover={{ textDecoration: 'none' }}>
+      <Link href="/" width="full" _hover={{ textDecoration: 'none' }}>
         <Typography as="div" align="center" fontWeight={900} textStyle="h4" width="full" letterSpacing="tighter">
           KAYBOT
         </Typography>

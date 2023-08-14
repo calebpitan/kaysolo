@@ -16,7 +16,7 @@ export const ChatBox = ({ children, ...rest }: ChatBoxProps) => {
       bgColor="whiteAlpha.400"
       position="absolute"
       borderTopRadius="2xl"
-      width={600}
+      width={700}
       maxWidth="full"
       height={`calc(100% - ${APP_BAR_HEIGHT}px)`}
       top={`${APP_BAR_HEIGHT}px`}
