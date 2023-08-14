@@ -1,0 +1,10 @@
+additionalProperties:
+  ensureUniqueParams: true
+  supportsES6: true
+  useSingleRequestParameter: true
+  enumPropertyNaming: UPPERCASE
+  stringEnums: true
+  withoutPrefixEnums: false
+globalProperties:
+  apiDocs: true
+  modelDocs: true
