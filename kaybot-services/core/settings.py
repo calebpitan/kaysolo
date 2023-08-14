@@ -22,5 +22,7 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = config("POSTGRES_USER", cast=str)
     POSTGRES_PASSWORD: str = config("POSTGRES_PASSWORD", cast=str)
 
+    OPENAI_SECRET_KEY: str = config("OPENAI_SECRET_KEY", cast=str)
+
 
 kaybot_settings = Settings()
