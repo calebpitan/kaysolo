@@ -66,10 +66,10 @@ export interface ChatCompletionChoice {
 export interface ChatCompletionChoiceMessage {
   /**
    *
-   * @type {any}
+   * @type {ChatCompletionRoleEnum}
    * @memberof ChatCompletionChoiceMessage
    */
-  role: any;
+  role: ChatCompletionRoleEnum;
   /**
    *
    * @type {any}
@@ -77,6 +77,7 @@ export interface ChatCompletionChoiceMessage {
    */
   content: any;
 }
+
 /**
  *
  * @export
@@ -136,6 +137,12 @@ export interface ChatCompletionResponseBody {
 /**
  *
  * @export
+ * @interface ChatCompletionRoleEnum
+ */
+export interface ChatCompletionRoleEnum {}
+/**
+ *
+ * @export
  * @interface ChatCompletionUsage
  */
 export interface ChatCompletionUsage {
@@ -156,7 +163,7 @@ export interface ChatCompletionUsage {
    * @type {any}
    * @memberof ChatCompletionUsage
    */
-  total_token: any;
+  total_tokens: any;
 }
 /**
  *
@@ -217,7 +224,7 @@ export interface ValidationError {
 export const ChatApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
      * @summary Chat
      * @param {MessageSend} messageSend
      * @param {*} [options] Override http request option.
@@ -261,7 +268,7 @@ export const ChatApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChatApiAxiosParamCreator(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
      * @summary Chat
      * @param {MessageSend} messageSend
      * @param {*} [options] Override http request option.
@@ -285,7 +292,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
   const localVarFp = ChatApiFp(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
      * @summary Chat
      * @param {ChatApiChatChatMessagePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -324,7 +331,7 @@ export interface ChatApiChatChatMessagePostRequest {
  */
 export class ChatApi extends BaseAPI {
   /**
-   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  Raises:     HTTPException
+   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
    * @summary Chat
    * @param {ChatApiChatChatMessagePostRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
