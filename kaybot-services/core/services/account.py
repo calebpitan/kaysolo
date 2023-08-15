@@ -1,18 +1,19 @@
 from pydantic import UUID4, EmailStr
 from sqlalchemy.orm import Session
 
-from core.models import account as model
+from core.models import account as model, user as user_model
 from core.schemas import account as schema
-
-from .user import get_user_by_username
 
 
 async def create_account(db: Session, account: schema.AccountCreate):
     password = account.password
-    account = model.Account(email=account.email, password=password, user=account.user)
+    user = user_model.User(**account.user.model_dump())
+    account = model.Account(email=account.email, password=password, user=user)
+
     db.add(account)
     db.commit()
     db.refresh(account)
+
     return account
 
 
