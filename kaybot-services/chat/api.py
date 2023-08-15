@@ -4,8 +4,9 @@ from fastapi import HTTPException
 
 from chat.router import router
 from intelligence.basic import generate_prompt, generate_response, PersonalityBackground
-from schemas.openai import ChatCompletionResponse
-from schemas.chat import MessageSend
+from core.schemas.openai import ChatCompletionResponse
+from core.schemas.chat import MessageSend
+from core.utils import create_error
 
 
 @router.post("/message", response_model=ChatCompletionResponse)
@@ -28,8 +29,8 @@ async def chat(message: MessageSend) -> dict:
         response = generate_response(prompt=prompt)
     except openai.OpenAIError as error:
         print(error)
-        raise HTTPException(503)
-
-    print(response)
+        raise HTTPException(
+            503, create_error(message="Failed to establish outbound communication")
+        )
 
     return {"response": response}
