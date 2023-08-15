@@ -3,7 +3,7 @@ import openai
 from enum import Enum
 
 from intelligence.personality import ADVANCED_BACKGROUND, PERSONALITY, SIMPLE_BACKGROUND
-from schemas.openai import ChatCompletionResponse
+from core.schemas.openai import ChatCompletionResponse
 
 
 class PersonalityBackground(Enum):
@@ -33,7 +33,7 @@ def generate_prompt(
     and set by an enum of `PersonalityBackground`
 
     """
-    is_simple = background_type == PersonalityBackground.SIMPLE
+    is_simple = background_type is PersonalityBackground.SIMPLE
     background = SIMPLE_BACKGROUND if is_simple else ADVANCED_BACKGROUND
 
     system = f"{background}\n\n{PERSONALITY}"
