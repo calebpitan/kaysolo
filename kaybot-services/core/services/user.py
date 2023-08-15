@@ -2,7 +2,6 @@ from pydantic import UUID4
 from sqlalchemy.orm import Session
 
 from core.models import user as model
-from core.schemas import user as schema
 
 
 async def get_user_by_id(db: Session, id: UUID4):
