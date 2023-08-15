@@ -5,3 +5,4 @@ python-decouple==3.8
 python-dotenv===1.0.0
 SQLAlchemy==2.0.19
 pytz==2023.3
+alembic==1.11.2
