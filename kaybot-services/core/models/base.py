@@ -1,11 +1,30 @@
-from sqlalchemy import UUID, Column, DateTime
+from datetime import datetime
+from uuid import UUID, uuid4
 
-from core.database.engine import Base
+from sqlalchemy import DateTime
+
+# from sqlalchemy import UUID
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import MappedAsDataclass
+
 from core.utils import get_utc_time
 
 
-class ModelBase(Base):
-    id = Column(UUID, primary_key=True, index=True)
-    created_at = Column(DateTime, index=True, default=get_utc_time())
-    updated_at = Column(DateTime, index=True, default=get_utc_time())
-    deleted_at = Column(DateTime, index=True, nullable=True, default=None)
+class Base(MappedAsDataclass, DeclarativeBase):
+    id: Mapped[UUID] = mapped_column(
+        init=False, primary_key=True, index=True, default_factory=uuid4
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime, index=True, default=get_utc_time()
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, index=True, default=get_utc_time()
+    )
+
+    deleted_at: Mapped[datetime] | None = mapped_column(
+        DateTime, init=False, index=True, nullable=True, default=None
+    )
