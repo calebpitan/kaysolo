@@ -7,4 +7,4 @@ DATABASE_URL = f"postgresql://{s.POSTGRES_USER}:{s.POSTGRES_PASSWORD}@{s.POSTGRE
 
 engine = create_engine(DATABASE_URL, echo=True)
 
-DeclarativeBase = declarative_base()
+Base = declarative_base()
