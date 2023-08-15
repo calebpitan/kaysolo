@@ -1,19 +1,19 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
-class ChatCompletionRoleEnum(Enum):
-    system = "system"
-    assistant = "assistant"
-    user = "user"
+class ChatCompletionRoleEnum(str, Enum):
+    SYSTEM = "system"
+    ASSISTANT = "assistant"
+    USER = "user"
 
 
-class ChatCompletionObjectEnum(Enum):
-    chat_completion = "chat.completion"
+class ChatCompletionObjectEnum(str, Enum):
+    CHAT_COMPLETION = "chat.completion"
 
 
 class ChatCompletionChoiceMessage(BaseModel):
-    role: ChatCompletionRoleEnum
+    role: ChatCompletionRoleEnum = Field(default=ChatCompletionRoleEnum.ASSISTANT)
     content: str
 
 
@@ -26,7 +26,7 @@ class ChatCompletionChoice(BaseModel):
 class ChatCompletionUsage(BaseModel):
     prompt_tokens: int
     completion_tokens: int
-    total_token: int
+    total_tokens: int
 
 
 class ChatCompletionResponseBody(BaseModel):
