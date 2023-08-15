@@ -2,11 +2,12 @@ from sqlalchemy import Column, String, DateTime, Index
 from sqlalchemy.dialects.postgresql import CITEXT
 from sqlalchemy.orm import relationship
 
-from .base import Base
 from core.utils import get_utc_time
 
+from .base import ModelBase
 
-class Account(Base):
+
+class Account(ModelBase):
     """The user account: this will mostly just be used
     to store credentials and authentication data and other
     user account related stuff
@@ -26,5 +27,5 @@ class Account(Base):
         "IDX_Account_email_UNIQUE",
         email,
         unique=True,
-        postgresql_where=Base.deleted_at.is_(None),
+        postgresql_where=ModelBase.deleted_at.is_(None),
     )
