@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from core.models import user as model
 
 
-async def get_user_by_id(db: Session, id: UUID4):
-    return db.query(model.User).filter(model.User.id == id)
+def get_user_by_id(session: Session, id: UUID4):
+    return session.query(model.User).filter(model.User.id == id)
 
 
-async def get_user_by_username(db: Session, username: str):
-    return db.query(model.User).filter(model.User.username == username)
+def get_user_by_username(session: Session, username: str):
+    return session.query(model.User).filter(model.User.username == username)
