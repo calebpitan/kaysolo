@@ -45,6 +45,7 @@ services:
       - redis
       - postgres
     environment:
+      - CLIENT_ADDRESSES=http://localhost:${CLIENT_PORT}
       - REDIS_URL=redis://kaybot_services_cache:6380 # the container name
       - POSTGRES_HOST=kaybot_services_postgres # the container name
       - POSTGRES_PORT=${POSTGRES_PORT}
