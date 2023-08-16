@@ -7,3 +7,9 @@ class SchemaBase(BaseModel):
     created_at: datetime
     updated_at: datetime
     deleted_at: datetime | None
+
+
+class ApplicationInfo(BaseModel):
+    title: str
+    version: str
+    description: str

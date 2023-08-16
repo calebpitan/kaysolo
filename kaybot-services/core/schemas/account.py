@@ -1,8 +1,13 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from typing import TYPE_CHECKING
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 from .base import SchemaBase
 from .user import UserCreate
+
+if TYPE_CHECKING:
+    from .user import User
 
 
 class AccountBase(BaseModel):
@@ -15,14 +20,8 @@ class AccountCreate(AccountBase):
 
 
 class Account(AccountBase, SchemaBase):
+    model_config = ConfigDict(from_attributes=True)
+
     active_at: datetime
-    verified_at: datetime
+    verified_at: datetime | None
     user: "User"
-
-    class Config:
-        orm_mode = True
-
-
-from .user import User
-
-Account.model_rebuild()

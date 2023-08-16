@@ -1,4 +1,5 @@
 from pydantic import BaseModel
 
-class MessageSend(BaseModel):
+
+class MessageCreate(BaseModel):
     message_body: str
