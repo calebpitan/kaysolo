@@ -6,3 +6,5 @@ python-dotenv===1.0.0
 SQLAlchemy==2.0.19
 pytz==2023.3
 alembic==1.11.2
+psycopg2==2.9.7
+pydantic[email]==2.1.1
