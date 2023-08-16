@@ -1,4 +1,7 @@
 build:
+	docker compose --build
+
+up_build:
 	docker compose up --build
 
 start:
@@ -7,3 +10,6 @@ start:
 clean:
 	rm -rf ./.next
 	rm -rf ./kaybot/.next
+
+clean_python:
+	find . -type d -name "__pycache__" ! -path "./venv/*" -exec rm -rf {} +
