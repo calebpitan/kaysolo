@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
-# https://stackoverflow.com/a/70976611/8124214
-psql -U ${POSTGRES_USER} <<-END
-  CREATE DATABASE kaybot
-    WITH
-    OWNER = ${POSTGRES_USER}
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+databases=("kaybot" "kaybot_test")
 
-  CREATE DATABASE "kaybot_test"
-    WITH
-    OWNER = ${POSTGRES_USER}
-    ENCODING = 'UTF8'
-    CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+# https://stackoverflow.com/a/70976611/8124214
+for db in $databases; do
+  psql -U ${POSTGRES_USER} <<-END
+    CREATE DATABASE $db
+      WITH
+      OWNER = ${POSTGRES_USER}
+      ENCODING = 'UTF8'
+      CONNECTION LIMIT = -1
+      IS_TEMPLATE = False;
 END
+
+  psql -U ${POSTGRES_USER} -d $db -c "CREATE EXTENSION IF NOT EXISTS citext"
+done
