@@ -1,11 +1,14 @@
 import uvicorn
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from core.schemas.base import ApplicationInfo
 from core.settings import kaybot_settings
 
-from chat.api import router as chat_router
-
+# import routers and handlers
+from account.handlers import router as account_router
+from chat.handlers import router as chat_router
 
 app = FastAPI(
     title=kaybot_settings.APP_NAME,
@@ -15,22 +18,25 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3100"],
+    allow_origins=kaybot_settings.CLIENT_ADDRESSES,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_credentials=True,
 )
 
 
+app.include_router(account_router, prefix="/account", tags=["Account"])
 app.include_router(chat_router, prefix="/chat", tags=["Chat"])
 
 
-@app.get("/", tags=["Root"])
+@app.get("/", tags=["Root"], response_model=ApplicationInfo)
 async def root():
-    return {
-        "title": app.title,
-        "description": app.description,
-        "version": app.version,
-    }
+    """Returns basic information about the application"""
+
+    return ApplicationInfo(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+    )
 
 
 if __name__ == "__main__":
