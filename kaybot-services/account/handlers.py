@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from core.database.session import get_db
+from core.deps import get_db
 from core.schemas.account import Account, AccountCreate
 from core.services.account import create_account_service
 
