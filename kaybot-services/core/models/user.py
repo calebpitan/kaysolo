@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from sqlalchemy import Column, String, Index
+from sqlalchemy import String, Index
 from sqlalchemy.dialects.postgresql import CITEXT
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy.orm import Mapped
@@ -22,12 +22,14 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String)
     username: Mapped[str] = mapped_column(CITEXT)
 
-    account: Mapped["Account"] = relationship("Account", back_populates="user")
+    account: Mapped["Account"] = relationship("Account", back_populates="user", init=False)
 
     # partial index: useful for soft delete
-    __table_args__ = Index(
-        "IDX_User_username_UNIQUE",
-        username,
-        unique=True,
-        postgresql_where=Base.deleted_at.is_(None),
+    __table_args__ = (
+        Index(
+            "IDX_User_username_UNIQUE",
+            username,
+            unique=True,
+            postgresql_where=Base.deleted_at.is_(None),
+        ),
     )

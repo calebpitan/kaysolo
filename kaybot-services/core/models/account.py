@@ -2,10 +2,9 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 
-from sqlalchemy import String, DateTime, Index
+from sqlalchemy import ForeignKey, String, DateTime, Index
 from sqlalchemy.dialects.postgresql import CITEXT
-from sqlalchemy.orm import mapped_column, relationship
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.utils import get_utc_time
 
@@ -21,19 +20,39 @@ class Account(Base):
     user account related stuff
     """
 
-    __tablename__ = "acccount"
+    __tablename__ = "account"
 
-    email: Mapped[str] = mapped_column(CITEXT, nullable=False)
-    password: Mapped[str] = mapped_column(String, nullable=False)
-    active_at: Mapped[datetime] = mapped_column(DateTime, default=get_utc_time())
-    verified_at: Mapped[datetime] = mapped_column(DateTime, nullable=True, default=None)
+    email: Mapped[str] = mapped_column(CITEXT, name="email", nullable=False)
+    password: Mapped[str] = mapped_column(String, name="password", nullable=False)
 
-    user: Mapped["User"] = relationship("User", back_populates="account", cascade="all")
+    active_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        name="active_at",
+        default=get_utc_time(),
+    )
+
+    verified_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        name="verified_at",
+        nullable=True,
+        default=None,
+    )
+
+    user_id = mapped_column(ForeignKey("user.id"), init=False)
+
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="account",
+        cascade="all",
+        default=None,
+    )
 
     # partial index: useful for soft delete
-    __table_args__ = Index(
-        "IDX_Account_email_UNIQUE",
-        email,
-        unique=True,
-        postgresql_where=Base.deleted_at.is_(None),
+    __table_args__ = (
+        Index(
+            "IDX_Account_email_UNIQUE",
+            email,
+            unique=True,
+            postgresql_where=Base.deleted_at.is_(None),
+        ),
     )

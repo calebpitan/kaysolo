@@ -12,19 +12,36 @@ from sqlalchemy.orm import MappedAsDataclass
 from core.utils import get_utc_time
 
 
-class Base(MappedAsDataclass, DeclarativeBase):
+class Base(DeclarativeBase, MappedAsDataclass):
     id: Mapped[UUID] = mapped_column(
-        init=False, primary_key=True, index=True, default_factory=uuid4
+        name="id",
+        init=False,
+        primary_key=True,
+        index=True,
+        default_factory=uuid4,
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime, index=True, default=get_utc_time()
+        DateTime,
+        name="created_at",
+        init=False,
+        index=True,
+        default=get_utc_time(),
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, index=True, default=get_utc_time()
+        DateTime,
+        name="updated_at",
+        init=False,
+        index=True,
+        default=get_utc_time(),
     )
 
     deleted_at: Mapped[datetime] | None = mapped_column(
-        DateTime, init=False, index=True, nullable=True, default=None
+        DateTime,
+        name="deleted_at",
+        init=False,
+        index=True,
+        nullable=True,
+        default=None,
     )
