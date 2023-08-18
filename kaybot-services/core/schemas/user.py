@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING, Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import UUID4, BaseModel, ConfigDict
 
 from .base import SchemaBase
 
@@ -19,5 +19,7 @@ class UserCreate(UserBase):
 
 class User(UserBase, SchemaBase):
     model_config = ConfigDict(from_attributes=True)
+
+    account_id: UUID4
 
     # account: Optional["Account"]
