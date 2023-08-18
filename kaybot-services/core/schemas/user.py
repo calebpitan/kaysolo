@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from pydantic import BaseModel, ConfigDict
 
 from .base import SchemaBase
@@ -20,4 +20,4 @@ class UserCreate(UserBase):
 class User(UserBase, SchemaBase):
     model_config = ConfigDict(from_attributes=True)
 
-    account: "Account"
+    # account: Optional["Account"]
