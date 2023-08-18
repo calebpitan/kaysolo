@@ -1,5 +1,7 @@
 from typing import TYPE_CHECKING
-from sqlalchemy import String, Index
+from uuid import UUID
+
+from sqlalchemy import ForeignKey, String, Index
 from sqlalchemy.dialects.postgresql import CITEXT
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy.orm import Mapped
@@ -22,7 +24,9 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String)
     username: Mapped[str] = mapped_column(CITEXT)
 
-    account: Mapped["Account"] = relationship("Account", back_populates="user", init=False)
+    account_id: Mapped[UUID] = mapped_column(ForeignKey("account.id"), init=False, unique=True)
+
+    # account: Mapped["Account"] = relationship("Account", back_populates="user", init=False)
 
     # partial index: useful for soft delete
     __table_args__ = (
