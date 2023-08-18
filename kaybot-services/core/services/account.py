@@ -44,8 +44,6 @@ def create_account_service(session: Session, credentials: schema.AccountCreate):
     session.commit()
     session.refresh(account)
 
-    print(account.user)
-
     return account
 
 
