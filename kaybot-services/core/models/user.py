@@ -24,7 +24,11 @@ class User(Base):
     last_name: Mapped[str] = mapped_column(String)
     username: Mapped[str] = mapped_column(CITEXT)
 
-    account_id: Mapped[UUID] = mapped_column(ForeignKey("account.id"), init=False, unique=True)
+    account_id: Mapped[UUID] = mapped_column(
+        ForeignKey("account.id", name="user_account_id_fkey"),
+        init=False,
+        unique=True,
+    )
 
     # account: Mapped["Account"] = relationship("Account", back_populates="user", init=False)
 
