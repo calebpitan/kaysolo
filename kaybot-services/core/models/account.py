@@ -1,8 +1,7 @@
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-
-from sqlalchemy import ForeignKey, String, DateTime, Index
+from sqlalchemy import String, DateTime, Index
 from sqlalchemy.dialects.postgresql import CITEXT
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -26,23 +25,21 @@ class Account(Base):
     password: Mapped[str] = mapped_column(String, name="password", nullable=False)
 
     active_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         name="active_at",
         default=get_utc_time(),
     )
 
     verified_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         name="verified_at",
         nullable=True,
         default=None,
     )
 
-    user_id = mapped_column(ForeignKey("user.id"), init=False)
-
     user: Mapped["User"] = relationship(
         "User",
-        back_populates="account",
+        # back_populates="account",
         cascade="all",
         default=None,
     )

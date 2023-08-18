@@ -22,7 +22,7 @@ class Base(DeclarativeBase, MappedAsDataclass):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         name="created_at",
         init=False,
         index=True,
@@ -30,7 +30,7 @@ class Base(DeclarativeBase, MappedAsDataclass):
     )
 
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         name="updated_at",
         init=False,
         index=True,
@@ -38,7 +38,7 @@ class Base(DeclarativeBase, MappedAsDataclass):
     )
 
     deleted_at: Mapped[datetime] | None = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         name="deleted_at",
         init=False,
         index=True,
