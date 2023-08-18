@@ -14,4 +14,6 @@ def create_account(credentials: AccountCreate, db: Session = Depends(get_db)):
     as the user's identification through the entire system
     """
 
-    return create_account_service(session=db, credentials=credentials)
+    account = create_account_service(session=db, credentials=credentials)
+
+    return account
