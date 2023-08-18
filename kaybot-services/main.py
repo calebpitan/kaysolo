@@ -11,6 +11,7 @@ from core.settings import settings
 # import routers and handlers
 from account.handlers import router as account_router
 from chat.handlers import router as chat_router
+from user.handlers import router as user_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -28,6 +29,7 @@ app.add_middleware(
 
 app.include_router(account_router, prefix="/account", tags=["Account"])
 app.include_router(chat_router, prefix="/chat", tags=["Chat"])
+app.include_router(user_router, prefix="/user", tags=["User"])
 
 
 @app.get("/", tags=["Root"], response_model=ApplicationInfo)
