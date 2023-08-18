@@ -1,4 +1,4 @@
 import openai
-from core.settings import kaybot_settings
+from core.settings import settings
 
-openai.api_key = kaybot_settings.OPENAI_SECRET_KEY
+openai.api_key = settings.OPENAI_SECRET_KEY

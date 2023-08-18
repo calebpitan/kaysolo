@@ -1,24 +1,26 @@
 import uvicorn
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import ResponseValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from core.schemas.base import ApplicationInfo
-from core.settings import kaybot_settings
+from core.settings import settings
 
 # import routers and handlers
 from account.handlers import router as account_router
 from chat.handlers import router as chat_router
 
 app = FastAPI(
-    title=kaybot_settings.APP_NAME,
-    description=kaybot_settings.DESCRIPTION,
-    version=kaybot_settings.VERSION,
+    title=settings.APP_NAME,
+    description=settings.DESCRIPTION,
+    version=settings.VERSION,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=kaybot_settings.CLIENT_ADDRESSES,
+    allow_origins=settings.CLIENT_ADDRESSES,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_credentials=True,
 )
@@ -40,4 +42,4 @@ async def root():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=kaybot_settings.PORT, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=settings.PORT, reload=True)

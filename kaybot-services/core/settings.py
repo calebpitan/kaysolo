@@ -28,4 +28,4 @@ class Settings(BaseSettings):
     OPENAI_SECRET_KEY: str = config("OPENAI_SECRET_KEY", cast=str)
 
 
-kaybot_settings = Settings()
+settings = Settings()
