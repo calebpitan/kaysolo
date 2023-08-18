@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { chatClient } from './client';
-import { ChatMessage } from './dto';
+import { MessageCreateConcrete } from './dto';
 
 import { api } from '../base';
 
 export function useSendMessage() {
   return useMutation({
-    mutationFn: async (message: ChatMessage) => {
-      const postChatMessage = await chatClient.chatChatMessagePost(message);
+    mutationFn: async (message: MessageCreateConcrete) => {
+      const postChatMessage = await chatClient.createMessageChatMessagePost(message);
 
       const response = await postChatMessage(api);
 

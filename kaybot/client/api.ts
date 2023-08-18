@@ -36,6 +36,111 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  *
  * @export
+ * @interface Account
+ */
+export interface Account {
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  id: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  created_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  updated_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  deleted_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  email: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  active_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Account
+   */
+  verified_at: any;
+  /**
+   *
+   * @type {User}
+   * @memberof Account
+   */
+  user: User;
+}
+/**
+ *
+ * @export
+ * @interface AccountCreate
+ */
+export interface AccountCreate {
+  /**
+   *
+   * @type {any}
+   * @memberof AccountCreate
+   */
+  email: any;
+  /**
+   *
+   * @type {any}
+   * @memberof AccountCreate
+   */
+  password: any;
+  /**
+   *
+   * @type {UserCreate}
+   * @memberof AccountCreate
+   */
+  user: UserCreate;
+}
+/**
+ *
+ * @export
+ * @interface ApplicationInfo
+ */
+export interface ApplicationInfo {
+  /**
+   *
+   * @type {any}
+   * @memberof ApplicationInfo
+   */
+  title: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ApplicationInfo
+   */
+  version: any;
+  /**
+   *
+   * @type {any}
+   * @memberof ApplicationInfo
+   */
+  description: any;
+}
+/**
+ *
+ * @export
  * @interface ChatCompletionChoice
  */
 export interface ChatCompletionChoice {
@@ -181,15 +286,95 @@ export interface HTTPValidationError {
 /**
  *
  * @export
- * @interface MessageSend
+ * @interface MessageCreate
  */
-export interface MessageSend {
+export interface MessageCreate {
   /**
    *
    * @type {any}
-   * @memberof MessageSend
+   * @memberof MessageCreate
    */
   message_body: any;
+}
+/**
+ *
+ * @export
+ * @interface User
+ */
+export interface User {
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  id: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  created_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  updated_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  deleted_at: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  first_name: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  last_name: any;
+  /**
+   *
+   * @type {any}
+   * @memberof User
+   */
+  username: any;
+  /**
+   *
+   * @type {Account}
+   * @memberof User
+   */
+  account: Account;
+}
+/**
+ *
+ * @export
+ * @interface UserCreate
+ */
+export interface UserCreate {
+  /**
+   *
+   * @type {any}
+   * @memberof UserCreate
+   */
+  first_name: any;
+  /**
+   *
+   * @type {any}
+   * @memberof UserCreate
+   */
+  last_name: any;
+  /**
+   *
+   * @type {any}
+   * @memberof UserCreate
+   */
+  username: any;
 }
 /**
  *
@@ -218,6 +403,140 @@ export interface ValidationError {
 }
 
 /**
+ * AccountApi - axios parameter creator
+ * @export
+ */
+export const AccountApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
+     * @summary Create Account
+     * @param {AccountCreate} accountCreate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createAccountAccountCreatePost: async (
+      accountCreate: AccountCreate,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'accountCreate' is not null or undefined
+      assertParamExists('createAccountAccountCreatePost', 'accountCreate', accountCreate);
+      const localVarPath = `/account/create`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(accountCreate, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * AccountApi - functional programming interface
+ * @export
+ */
+export const AccountApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = AccountApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
+     * @summary Create Account
+     * @param {AccountCreate} accountCreate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createAccountAccountCreatePost(
+      accountCreate: AccountCreate,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Account>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createAccountAccountCreatePost(accountCreate, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+  };
+};
+
+/**
+ * AccountApi - factory interface
+ * @export
+ */
+export const AccountApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = AccountApiFp(configuration);
+  return {
+    /**
+     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
+     * @summary Create Account
+     * @param {AccountApiCreateAccountAccountCreatePostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createAccountAccountCreatePost(
+      requestParameters: AccountApiCreateAccountAccountCreatePostRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Account> {
+      return localVarFp
+        .createAccountAccountCreatePost(requestParameters.accountCreate, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * Request parameters for createAccountAccountCreatePost operation in AccountApi.
+ * @export
+ * @interface AccountApiCreateAccountAccountCreatePostRequest
+ */
+export interface AccountApiCreateAccountAccountCreatePostRequest {
+  /**
+   *
+   * @type {AccountCreate}
+   * @memberof AccountApiCreateAccountAccountCreatePost
+   */
+  readonly accountCreate: AccountCreate;
+}
+
+/**
+ * AccountApi - object-oriented interface
+ * @export
+ * @class AccountApi
+ * @extends {BaseAPI}
+ */
+export class AccountApi extends BaseAPI {
+  /**
+   * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
+   * @summary Create Account
+   * @param {AccountApiCreateAccountAccountCreatePostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AccountApi
+   */
+  public createAccountAccountCreatePost(
+    requestParameters: AccountApiCreateAccountAccountCreatePostRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return AccountApiFp(this.configuration)
+      .createAccountAccountCreatePost(requestParameters.accountCreate, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
  * ChatApi - axios parameter creator
  * @export
  */
@@ -225,14 +544,17 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
   return {
     /**
      * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
-     * @summary Chat
-     * @param {MessageSend} messageSend
+     * @summary Create Message
+     * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    chatChatMessagePost: async (messageSend: MessageSend, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'messageSend' is not null or undefined
-      assertParamExists('chatChatMessagePost', 'messageSend', messageSend);
+    createMessageChatMessagePost: async (
+      messageCreate: MessageCreate,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'messageCreate' is not null or undefined
+      assertParamExists('createMessageChatMessagePost', 'messageCreate', messageCreate);
       const localVarPath = `/chat/message`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -250,7 +572,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(messageSend, localVarRequestOptions, configuration);
+      localVarRequestOptions.data = serializeDataIfNeeded(messageCreate, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -269,16 +591,16 @@ export const ChatApiFp = function (configuration?: Configuration) {
   return {
     /**
      * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
-     * @summary Chat
-     * @param {MessageSend} messageSend
+     * @summary Create Message
+     * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async chatChatMessagePost(
-      messageSend: MessageSend,
+    async createMessageChatMessagePost(
+      messageCreate: MessageCreate,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChatCompletionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.chatChatMessagePost(messageSend, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMessageChatMessagePost(messageCreate, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
   };
@@ -293,34 +615,34 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
   return {
     /**
      * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
-     * @summary Chat
-     * @param {ChatApiChatChatMessagePostRequest} requestParameters Request parameters.
+     * @summary Create Message
+     * @param {ChatApiCreateMessageChatMessagePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    chatChatMessagePost(
-      requestParameters: ChatApiChatChatMessagePostRequest,
+    createMessageChatMessagePost(
+      requestParameters: ChatApiCreateMessageChatMessagePostRequest,
       options?: AxiosRequestConfig,
     ): AxiosPromise<ChatCompletionResponse> {
       return localVarFp
-        .chatChatMessagePost(requestParameters.messageSend, options)
+        .createMessageChatMessagePost(requestParameters.messageCreate, options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * Request parameters for chatChatMessagePost operation in ChatApi.
+ * Request parameters for createMessageChatMessagePost operation in ChatApi.
  * @export
- * @interface ChatApiChatChatMessagePostRequest
+ * @interface ChatApiCreateMessageChatMessagePostRequest
  */
-export interface ChatApiChatChatMessagePostRequest {
+export interface ChatApiCreateMessageChatMessagePostRequest {
   /**
    *
-   * @type {MessageSend}
-   * @memberof ChatApiChatChatMessagePost
+   * @type {MessageCreate}
+   * @memberof ChatApiCreateMessageChatMessagePost
    */
-  readonly messageSend: MessageSend;
+  readonly messageCreate: MessageCreate;
 }
 
 /**
@@ -332,15 +654,18 @@ export interface ChatApiChatChatMessagePostRequest {
 export class ChatApi extends BaseAPI {
   /**
    * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
-   * @summary Chat
-   * @param {ChatApiChatChatMessagePostRequest} requestParameters Request parameters.
+   * @summary Create Message
+   * @param {ChatApiCreateMessageChatMessagePostRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ChatApi
    */
-  public chatChatMessagePost(requestParameters: ChatApiChatChatMessagePostRequest, options?: AxiosRequestConfig) {
+  public createMessageChatMessagePost(
+    requestParameters: ChatApiCreateMessageChatMessagePostRequest,
+    options?: AxiosRequestConfig,
+  ) {
     return ChatApiFp(this.configuration)
-      .chatChatMessagePost(requestParameters.messageSend, options)
+      .createMessageChatMessagePost(requestParameters.messageCreate, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -352,7 +677,7 @@ export class ChatApi extends BaseAPI {
 export const RootApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     *
+     * Returns basic information about the application
      * @summary Root
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -390,14 +715,14 @@ export const RootApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = RootApiAxiosParamCreator(configuration);
   return {
     /**
-     *
+     * Returns basic information about the application
      * @summary Root
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async rootGet(
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationInfo>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.rootGet(options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -412,12 +737,12 @@ export const RootApiFactory = function (configuration?: Configuration, basePath?
   const localVarFp = RootApiFp(configuration);
   return {
     /**
-     *
+     * Returns basic information about the application
      * @summary Root
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    rootGet(options?: AxiosRequestConfig): AxiosPromise<any> {
+    rootGet(options?: AxiosRequestConfig): AxiosPromise<ApplicationInfo> {
       return localVarFp.rootGet(options).then((request) => request(axios, basePath));
     },
   };
@@ -431,7 +756,7 @@ export const RootApiFactory = function (configuration?: Configuration, basePath?
  */
 export class RootApi extends BaseAPI {
   /**
-   *
+   * Returns basic information about the application
    * @summary Root
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
