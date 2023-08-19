@@ -9,7 +9,7 @@ from core.services.account import get_account_by_id
 from core.schemas.account import TokenData
 from core.utils import create_error
 
-from .authentication.token import JWTRS256Token, get_account_id_from_sub
+from .authentication.token import JWTRS256Token, split_prefix_from_sub
 from .database.engine import SessionLocal
 
 
@@ -24,7 +24,8 @@ def get_db():
 
 
 def get_current_account(
-    token: Annotated[str, Depends(oauth2_scheme)], db: Session = Depends(get_db)
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Session = Depends(get_db),
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -37,13 +38,12 @@ def get_current_account(
     try:
         payload = encoded_token.decode()
 
-        account_id = payload.get("sub")
+        sub = payload.get("sub")
 
-        if account_id is None:
+        if sub is None:
             raise credentials_exception
 
-        # reassign: parse the sub header containing prefix "account_id:"
-        account_id = get_account_id_from_sub(account_id)
+        _, account_id = split_prefix_from_sub(sub)
 
         token_data = TokenData(account_id=account_id)
 
