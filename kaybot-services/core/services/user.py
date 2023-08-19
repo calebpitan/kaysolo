@@ -12,8 +12,8 @@ def get_user_by_id(session: Session, id: UUID4):
     :param session: the database session to use
     :param id: the unique user identifier to use to retrieve the user
 
-    Raises:
-        HTTPException when no user is found
+    :raises HTTPException:
+        if no user with the specified identifier or ID is found
     """
 
     user = session.query(model.User).filter(model.User.id == id).one_or_none()
@@ -33,8 +33,8 @@ def get_user_by_username(session: Session, username: str):
     :param session: the database session to use
     :param username: the unique username to use to retrieve the user
 
-    Raises:
-        HTTPException when no user is found
+    :raises HTTPException:
+        if no user that goes by a username is found
     """
 
     user = (
