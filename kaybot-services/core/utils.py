@@ -1,9 +1,9 @@
 import pytz
 
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Iterator
 
-from contextlib import contextmanager
 from pydantic import ValidationError
 
 
