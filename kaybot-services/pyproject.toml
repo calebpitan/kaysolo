@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "kaybot-services"
+version = "0.1.0"
+description = "KayBot is a chatbot that can be utilized for lead generation in the field of digital marketing"
+authors = ["Caleb Adepitan <adepitancaleb@gmail.com>"]
+readme = "README.md"
+packages = [{include = "."}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^0.27.8"
+fastapi = "^0.101.1"
+uvicorn = {extras = ["standard"], version = "^0.23.2"}
+python-decouple = "^3.8"
+python-dotenv = "^1.0.0"
+sqlalchemy = "^2.0.20"
+pytz = "^2023.3"
+alembic = "^1.11.3"
+psycopg2-binary = "^2.9.7"
+pydantic = {extras = ["email"], version = "^2.2.1"}
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
