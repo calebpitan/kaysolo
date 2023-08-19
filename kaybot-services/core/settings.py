@@ -14,11 +14,12 @@ class Settings(BaseSettings):
 
     CLIENT_ADDRESSES: list[str] | Any = config("CLIENT_ADDRESSES", cast=str).split(",")
 
-    JWT_RS256_PUB_KEY: str = config("JWT_RS256_PUB_KEY", cast=str)
-    JWT_RS256_KEY: str = config("JWT_RS256_KEY", cast=str)
-    TOKEN_EXPIRY: str = config("TOKEN_EXPIRY", cast=str)
+    JWT_ALGORITHM = "RS256"
+    JWT_RS256_PUB_KEY: str = config("JWT_RS256_PUB_KEY", cast=str).replace(r"\n", "\n")
+    JWT_RS256_KEY: str = config("JWT_RS256_KEY", cast=str).replace(r"\n", "\n")
+    TOKEN_EXPIRY: int = config("TOKEN_EXPIRY", cast=int)
 
-    VERSION: str = "1.0"
+    VERSION = "1.0"
 
     POSTGRES_PORT: int = config("POSTGRES_PORT", cast=int)
     POSTGRES_HOST: str = config("POSTGRES_HOST", cast=str)
