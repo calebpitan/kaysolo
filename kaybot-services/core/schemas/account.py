@@ -1,13 +1,10 @@
 from datetime import datetime
+from enum import Enum
 from typing import TYPE_CHECKING, Optional
 
-from pydantic import BaseModel, ConfigDict, EmailStr, ValidationError, field_validator
-from sqlalchemy import inspect
+from pydantic import UUID4, BaseModel, ConfigDict, EmailStr, Field
 
-from core.utils import (
-    is_recursion_validation_error,
-    suppress_recursion_validation_error,
-)
+from core.authentication.token import JWTRS256Token
 
 from .base import SchemaBase
 from .user import UserCreate
@@ -32,25 +29,15 @@ class Account(AccountBase, SchemaBase):
     verified_at: datetime | None
     user: Optional["User"]
 
-    # @field_validator("user", mode="before")
-    # @classmethod
-    # def drop_cyclic_references(cls, user):
-    #     from ..models.user import User
 
-    #     if not (isinstance(user, User)):
-    #         return user
+class TokenData(BaseModel):
+    account_id: UUID4 | None
 
-    #     new_user = User(
-    #         first_name=user.first_name,
-    #         last_name=user.last_name,
-    #         username=user.username,
-    #     )
 
-    #     mapper = inspect(User)
+class TokenTypeEnum(str, Enum):
+    BEARER = "bearer"
 
-    #     for column in mapper.attrs:
-    #         if column.key == "account":
-    #             continue
-    #         setattr(new_user, column.key, getattr(user, column.key))
 
-    #     return new_user
+class Token(BaseModel):
+    access_token: JWTRS256Token = Field(json_schema_extra={"type": "string"})
+    token_type: TokenTypeEnum
