@@ -37,7 +37,7 @@ When all these are done, you can go ahead to start the application in one of the
 - Using the `make` command, since the project contains a `Makefile` at the project root
 - Using `docker` directly from the command line
 
-Note: Windows users, most likely, won't have the `make` command on their system. While the app can be started using `docker` command directly,
+Note: Windows users, most likely, won't have the `make` command on their system. While the app can be started using the `docker` command directly,
 you may also need to have Docker installed.
 
 Using make:
