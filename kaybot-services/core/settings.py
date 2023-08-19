@@ -1,6 +1,7 @@
-from pydantic.v1 import BaseSettings
 from typing import Any
+
 from decouple import config
+from pydantic.v1 import BaseSettings
 
 
 class Settings(BaseSettings):
