@@ -5,9 +5,8 @@ from fastapi import Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from core.authentication.token import JWTRS256Token, account_id_sub
+from core.authentication.token import JWTRS256Token, prefix_sub
 from core.deps import get_db, get_current_account
-from core.settings import settings
 from core.schemas.account import Account, AccountCreate, Token, TokenTypeEnum
 from core.services.account import (
     authenticate_user_account_service,
@@ -35,7 +34,7 @@ def authenticate_user_account(
         password=form_data.password,
     )
 
-    access_token = JWTRS256Token.from_data(data={"sub": account_id_sub(account.id.hex)})
+    access_token = JWTRS256Token.from_data(data={"sub": prefix_sub(account.id.hex)})
 
     return Token(access_token=access_token, token_type=TokenTypeEnum.BEARER)
 
