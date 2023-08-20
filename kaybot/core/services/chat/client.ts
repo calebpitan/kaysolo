@@ -1,6 +1,4 @@
-import { ChatApiFp, Configuration } from '@/client';
-import { SERVER_BASE_URL } from '@/core/services';
-
-const configuration = new Configuration({ basePath: SERVER_BASE_URL });
+import { ChatApiFp } from '@/client';
+import { configuration } from '@/core/services';
 
 export const chatClient = ChatApiFp(configuration);
