@@ -13,6 +13,10 @@ const nextConfig = {
 
     return config;
   },
+  env: {
+    SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+    PORT: process.env.PORT,
+  },
 };
 
 module.exports = nextConfig;

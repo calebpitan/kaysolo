@@ -7,7 +7,7 @@ import { api } from '../base';
 export function useSendMessage() {
   return useMutation({
     mutationFn: async (message: MessageCreateConcrete) => {
-      const postChatMessage = await chatClient.createMessageChatMessagePost(message);
+      const postChatMessage = await chatClient.createMessageChatsMessagePost(message);
 
       const response = await postChatMessage(api);
 
