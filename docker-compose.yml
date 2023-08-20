@@ -24,7 +24,7 @@ services:
       - "./kaybot:${CLIENT_WORKDIR}"
       - "./kaybot/node_modules:${CLIENT_WORKDIR}/node_modules"
     environment:
-      - SERVER_ENDPOINT=http://localhost:${PORT} # $PORT here is web_server port
+      - SERVER_BASE_URL=http://localhost:${PORT} # $PORT here is web_server port
       - PORT=${CLIENT_PORT} # Assign $CLIENT_PORT to $PORT env var in web_client
 
   web_server:
