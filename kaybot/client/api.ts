@@ -83,10 +83,10 @@ export interface Account {
   verified_at: any;
   /**
    *
-   * @type {User}
+   * @type {any}
    * @memberof Account
    */
-  user: User;
+  user: any;
 }
 /**
  *
@@ -299,6 +299,25 @@ export interface MessageCreate {
 /**
  *
  * @export
+ * @interface Token
+ */
+export interface Token {
+  /**
+   * This class serves as a convenient representation     of a JWT RS256 Token, and also a valid Pydantic model     for representing this type of JWT token.      The signing algorithm used is an RS256 algorithm with     asymmetric key-pairs for signing and verifying, or encoding     and decoding.      It\'s safe to pass this object as a FastAPI or Pydantic     response model. It will be correctly represented as the     token string it wraps around, since it implements a     Pydantic model serializer.      To encode or sign a token from a regular Python data, dict,     you do not need to create this class object directly—the use     of `JWTRS256Token.from_data` covers this case.      The class object itself is used to wrap or represent an     already signed token string and can be used for decoding     the wrapped token.
+   * @type {any}
+   * @memberof Token
+   */
+  access_token: any;
+  /**
+   *
+   * @type {any}
+   * @memberof Token
+   */
+  token_type: any;
+}
+/**
+ *
+ * @export
  * @interface User
  */
 export interface User {
@@ -346,10 +365,10 @@ export interface User {
   username: any;
   /**
    *
-   * @type {Account}
+   * @type {any}
    * @memberof User
    */
-  account: Account;
+  account_id: any;
 }
 /**
  *
@@ -409,19 +428,93 @@ export interface ValidationError {
 export const AccountApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
-     * @summary Create Account
+     *
+     * @summary Authenticate User Account
+     * @param {any} username
+     * @param {any} password
+     * @param {any} [grantType]
+     * @param {any} [scope]
+     * @param {any} [clientId]
+     * @param {any} [clientSecret]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authenticateUserAccountAccountsAuthenticatePost: async (
+      username: any,
+      password: any,
+      grantType?: any,
+      scope?: any,
+      clientId?: any,
+      clientSecret?: any,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists('authenticateUserAccountAccountsAuthenticatePost', 'username', username);
+      // verify required parameter 'password' is not null or undefined
+      assertParamExists('authenticateUserAccountAccountsAuthenticatePost', 'password', password);
+      const localVarPath = `/accounts/authenticate`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+      const localVarFormParams = new URLSearchParams();
+
+      if (grantType !== undefined) {
+        localVarFormParams.set('grant_type', grantType as any);
+      }
+
+      if (username !== undefined) {
+        localVarFormParams.set('username', username as any);
+      }
+
+      if (password !== undefined) {
+        localVarFormParams.set('password', password as any);
+      }
+
+      if (scope !== undefined) {
+        localVarFormParams.set('scope', scope as any);
+      }
+
+      if (clientId !== undefined) {
+        localVarFormParams.set('client_id', clientId as any);
+      }
+
+      if (clientSecret !== undefined) {
+        localVarFormParams.set('client_secret', clientSecret as any);
+      }
+
+      localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = localVarFormParams.toString();
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @summary Create User Account
      * @param {AccountCreate} accountCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createAccountAccountCreatePost: async (
+    createUserAccountAccountsCreatePost: async (
       accountCreate: AccountCreate,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'accountCreate' is not null or undefined
-      assertParamExists('createAccountAccountCreatePost', 'accountCreate', accountCreate);
-      const localVarPath = `/account/create`;
+      assertParamExists('createUserAccountAccountsCreatePost', 'accountCreate', accountCreate);
+      const localVarPath = `/accounts/create`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -445,6 +538,38 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Identify the current user and return the user account
+     * @summary Identify User Account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    identifyUserAccountAccountsMeGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/accounts/me`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication OAuth2PasswordBearer required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'OAuth2PasswordBearer', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -456,17 +581,64 @@ export const AccountApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = AccountApiAxiosParamCreator(configuration);
   return {
     /**
-     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
-     * @summary Create Account
+     *
+     * @summary Authenticate User Account
+     * @param {any} username
+     * @param {any} password
+     * @param {any} [grantType]
+     * @param {any} [scope]
+     * @param {any} [clientId]
+     * @param {any} [clientSecret]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authenticateUserAccountAccountsAuthenticatePost(
+      username: any,
+      password: any,
+      grantType?: any,
+      scope?: any,
+      clientId?: any,
+      clientSecret?: any,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Token>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authenticateUserAccountAccountsAuthenticatePost(
+        username,
+        password,
+        grantType,
+        scope,
+        clientId,
+        clientSecret,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     *
+     * @summary Create User Account
      * @param {AccountCreate} accountCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createAccountAccountCreatePost(
+    async createUserAccountAccountsCreatePost(
       accountCreate: AccountCreate,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Account>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createAccountAccountCreatePost(accountCreate, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createUserAccountAccountsCreatePost(
+        accountCreate,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Identify the current user and return the user account
+     * @summary Identify User Account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async identifyUserAccountAccountsMeGet(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Account>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.identifyUserAccountAccountsMeGet(options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
   };
@@ -480,33 +652,114 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
   const localVarFp = AccountApiFp(configuration);
   return {
     /**
-     * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
-     * @summary Create Account
-     * @param {AccountApiCreateAccountAccountCreatePostRequest} requestParameters Request parameters.
+     *
+     * @summary Authenticate User Account
+     * @param {AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createAccountAccountCreatePost(
-      requestParameters: AccountApiCreateAccountAccountCreatePostRequest,
+    authenticateUserAccountAccountsAuthenticatePost(
+      requestParameters: AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<Token> {
+      return localVarFp
+        .authenticateUserAccountAccountsAuthenticatePost(
+          requestParameters.username,
+          requestParameters.password,
+          requestParameters.grantType,
+          requestParameters.scope,
+          requestParameters.clientId,
+          requestParameters.clientSecret,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     *
+     * @summary Create User Account
+     * @param {AccountApiCreateUserAccountAccountsCreatePostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createUserAccountAccountsCreatePost(
+      requestParameters: AccountApiCreateUserAccountAccountsCreatePostRequest,
       options?: AxiosRequestConfig,
     ): AxiosPromise<Account> {
       return localVarFp
-        .createAccountAccountCreatePost(requestParameters.accountCreate, options)
+        .createUserAccountAccountsCreatePost(requestParameters.accountCreate, options)
         .then((request) => request(axios, basePath));
+    },
+    /**
+     * Identify the current user and return the user account
+     * @summary Identify User Account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    identifyUserAccountAccountsMeGet(options?: AxiosRequestConfig): AxiosPromise<Account> {
+      return localVarFp.identifyUserAccountAccountsMeGet(options).then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * Request parameters for createAccountAccountCreatePost operation in AccountApi.
+ * Request parameters for authenticateUserAccountAccountsAuthenticatePost operation in AccountApi.
  * @export
- * @interface AccountApiCreateAccountAccountCreatePostRequest
+ * @interface AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest
  */
-export interface AccountApiCreateAccountAccountCreatePostRequest {
+export interface AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest {
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly username: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly password: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly grantType?: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly scope?: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly clientId?: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly clientSecret?: any;
+}
+
+/**
+ * Request parameters for createUserAccountAccountsCreatePost operation in AccountApi.
+ * @export
+ * @interface AccountApiCreateUserAccountAccountsCreatePostRequest
+ */
+export interface AccountApiCreateUserAccountAccountsCreatePostRequest {
   /**
    *
    * @type {AccountCreate}
-   * @memberof AccountApiCreateAccountAccountCreatePost
+   * @memberof AccountApiCreateUserAccountAccountsCreatePost
    */
   readonly accountCreate: AccountCreate;
 }
@@ -519,19 +772,57 @@ export interface AccountApiCreateAccountAccountCreatePostRequest {
  */
 export class AccountApi extends BaseAPI {
   /**
-   * Create a user account that will be used for authentication and will serve as the user\'s identification through the entire system
-   * @summary Create Account
-   * @param {AccountApiCreateAccountAccountCreatePostRequest} requestParameters Request parameters.
+   *
+   * @summary Authenticate User Account
+   * @param {AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AccountApi
    */
-  public createAccountAccountCreatePost(
-    requestParameters: AccountApiCreateAccountAccountCreatePostRequest,
+  public authenticateUserAccountAccountsAuthenticatePost(
+    requestParameters: AccountApiAuthenticateUserAccountAccountsAuthenticatePostRequest,
     options?: AxiosRequestConfig,
   ) {
     return AccountApiFp(this.configuration)
-      .createAccountAccountCreatePost(requestParameters.accountCreate, options)
+      .authenticateUserAccountAccountsAuthenticatePost(
+        requestParameters.username,
+        requestParameters.password,
+        requestParameters.grantType,
+        requestParameters.scope,
+        requestParameters.clientId,
+        requestParameters.clientSecret,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @summary Create User Account
+   * @param {AccountApiCreateUserAccountAccountsCreatePostRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AccountApi
+   */
+  public createUserAccountAccountsCreatePost(
+    requestParameters: AccountApiCreateUserAccountAccountsCreatePostRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return AccountApiFp(this.configuration)
+      .createUserAccountAccountsCreatePost(requestParameters.accountCreate, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Identify the current user and return the user account
+   * @summary Identify User Account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AccountApi
+   */
+  public identifyUserAccountAccountsMeGet(options?: AxiosRequestConfig) {
+    return AccountApiFp(this.configuration)
+      .identifyUserAccountAccountsMeGet(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -543,19 +834,19 @@ export class AccountApi extends BaseAPI {
 export const ChatApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
      * @summary Create Message
      * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createMessageChatMessagePost: async (
+    createMessageChatsMessagePost: async (
       messageCreate: MessageCreate,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'messageCreate' is not null or undefined
-      assertParamExists('createMessageChatMessagePost', 'messageCreate', messageCreate);
-      const localVarPath = `/chat/message`;
+      assertParamExists('createMessageChatsMessagePost', 'messageCreate', messageCreate);
+      const localVarPath = `/chats/message`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -566,6 +857,10 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
       const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication OAuth2PasswordBearer required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'OAuth2PasswordBearer', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -590,17 +885,17 @@ export const ChatApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChatApiAxiosParamCreator(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
      * @summary Create Message
      * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createMessageChatMessagePost(
+    async createMessageChatsMessagePost(
       messageCreate: MessageCreate,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChatCompletionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createMessageChatMessagePost(messageCreate, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMessageChatsMessagePost(messageCreate, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
   };
@@ -614,33 +909,33 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
   const localVarFp = ChatApiFp(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
      * @summary Create Message
-     * @param {ChatApiCreateMessageChatMessagePostRequest} requestParameters Request parameters.
+     * @param {ChatApiCreateMessageChatsMessagePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createMessageChatMessagePost(
-      requestParameters: ChatApiCreateMessageChatMessagePostRequest,
+    createMessageChatsMessagePost(
+      requestParameters: ChatApiCreateMessageChatsMessagePostRequest,
       options?: AxiosRequestConfig,
     ): AxiosPromise<ChatCompletionResponse> {
       return localVarFp
-        .createMessageChatMessagePost(requestParameters.messageCreate, options)
+        .createMessageChatsMessagePost(requestParameters.messageCreate, options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * Request parameters for createMessageChatMessagePost operation in ChatApi.
+ * Request parameters for createMessageChatsMessagePost operation in ChatApi.
  * @export
- * @interface ChatApiCreateMessageChatMessagePostRequest
+ * @interface ChatApiCreateMessageChatsMessagePostRequest
  */
-export interface ChatApiCreateMessageChatMessagePostRequest {
+export interface ChatApiCreateMessageChatsMessagePostRequest {
   /**
    *
    * @type {MessageCreate}
-   * @memberof ChatApiCreateMessageChatMessagePost
+   * @memberof ChatApiCreateMessageChatsMessagePost
    */
   readonly messageCreate: MessageCreate;
 }
@@ -653,19 +948,19 @@ export interface ChatApiCreateMessageChatMessagePostRequest {
  */
 export class ChatApi extends BaseAPI {
   /**
-   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  Raises:     HTTPException
+   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
    * @summary Create Message
-   * @param {ChatApiCreateMessageChatMessagePostRequest} requestParameters Request parameters.
+   * @param {ChatApiCreateMessageChatsMessagePostRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof ChatApi
    */
-  public createMessageChatMessagePost(
-    requestParameters: ChatApiCreateMessageChatMessagePostRequest,
+  public createMessageChatsMessagePost(
+    requestParameters: ChatApiCreateMessageChatsMessagePostRequest,
     options?: AxiosRequestConfig,
   ) {
     return ChatApiFp(this.configuration)
-      .createMessageChatMessagePost(requestParameters.messageCreate, options)
+      .createMessageChatsMessagePost(requestParameters.messageCreate, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -765,6 +1060,229 @@ export class RootApi extends BaseAPI {
   public rootGet(options?: AxiosRequestConfig) {
     return RootApiFp(this.configuration)
       .rootGet(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * UserApi - axios parameter creator
+ * @export
+ */
+export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * @summary Find User By Id
+     * @param {any} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findUserByIdUsersIdGet: async (id: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('findUserByIdUsersIdGet', 'id', id);
+      const localVarPath = `/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * @summary Find User By Username
+     * @param {any} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findUserByUsernameUsersByUsernameGet: async (
+      username: any,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists('findUserByUsernameUsersByUsernameGet', 'username', username);
+      const localVarPath = `/users/by_username`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (username !== undefined) {
+        localVarQueryParameter['username'] = username;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * UserApi - functional programming interface
+ * @export
+ */
+export const UserApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * @summary Find User By Id
+     * @param {any} id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findUserByIdUsersIdGet(
+      id: any,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findUserByIdUsersIdGet(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * @summary Find User By Username
+     * @param {any} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async findUserByUsernameUsersByUsernameGet(
+      username: any,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.findUserByUsernameUsersByUsernameGet(username, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+  };
+};
+
+/**
+ * UserApi - factory interface
+ * @export
+ */
+export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = UserApiFp(configuration);
+  return {
+    /**
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * @summary Find User By Id
+     * @param {UserApiFindUserByIdUsersIdGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findUserByIdUsersIdGet(
+      requestParameters: UserApiFindUserByIdUsersIdGetRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .findUserByIdUsersIdGet(requestParameters.id, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * @summary Find User By Username
+     * @param {UserApiFindUserByUsernameUsersByUsernameGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    findUserByUsernameUsersByUsernameGet(
+      requestParameters: UserApiFindUserByUsernameUsersByUsernameGetRequest,
+      options?: AxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .findUserByUsernameUsersByUsernameGet(requestParameters.username, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * Request parameters for findUserByIdUsersIdGet operation in UserApi.
+ * @export
+ * @interface UserApiFindUserByIdUsersIdGetRequest
+ */
+export interface UserApiFindUserByIdUsersIdGetRequest {
+  /**
+   *
+   * @type {any}
+   * @memberof UserApiFindUserByIdUsersIdGet
+   */
+  readonly id: any;
+}
+
+/**
+ * Request parameters for findUserByUsernameUsersByUsernameGet operation in UserApi.
+ * @export
+ * @interface UserApiFindUserByUsernameUsersByUsernameGetRequest
+ */
+export interface UserApiFindUserByUsernameUsersByUsernameGetRequest {
+  /**
+   *
+   * @type {any}
+   * @memberof UserApiFindUserByUsernameUsersByUsernameGet
+   */
+  readonly username: any;
+}
+
+/**
+ * UserApi - object-oriented interface
+ * @export
+ * @class UserApi
+ * @extends {BaseAPI}
+ */
+export class UserApi extends BaseAPI {
+  /**
+   * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+   * @summary Find User By Id
+   * @param {UserApiFindUserByIdUsersIdGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserApi
+   */
+  public findUserByIdUsersIdGet(requestParameters: UserApiFindUserByIdUsersIdGetRequest, options?: AxiosRequestConfig) {
+    return UserApiFp(this.configuration)
+      .findUserByIdUsersIdGet(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+   * @summary Find User By Username
+   * @param {UserApiFindUserByUsernameUsersByUsernameGetRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserApi
+   */
+  public findUserByUsernameUsersByUsernameGet(
+    requestParameters: UserApiFindUserByUsernameUsersByUsernameGetRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return UserApiFp(this.configuration)
+      .findUserByUsernameUsersByUsernameGet(requestParameters.username, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
