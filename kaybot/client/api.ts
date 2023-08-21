@@ -309,6 +309,12 @@ export interface Token {
    */
   access_token: any;
   /**
+   * This class serves as a convenient representation     of a JWT RS256 Token, and also a valid Pydantic model     for representing this type of JWT token.      The signing algorithm used is an RS256 algorithm with     asymmetric key-pairs for signing and verifying, or encoding     and decoding.      It\'s safe to pass this object as a FastAPI or Pydantic     response model. It will be correctly represented as the     token string it wraps around, since it implements a     Pydantic model serializer.      To encode or sign a token from a regular Python data, dict,     you do not need to create this class object directly—the use     of `JWTRS256Token.from_data` covers this case.      The class object itself is used to wrap or represent an     already signed token string and can be used for decoding     the wrapped token.
+   * @type {any}
+   * @memberof Token
+   */
+  refresh_token: any;
+  /**
    *
    * @type {any}
    * @memberof Token
@@ -431,8 +437,9 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
      *
      * @summary Authenticate User Account
      * @param {any} username
-     * @param {any} password
      * @param {any} [grantType]
+     * @param {any} [password]
+     * @param {any} [refreshToken]
      * @param {any} [scope]
      * @param {any} [clientId]
      * @param {any} [clientSecret]
@@ -441,8 +448,9 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
      */
     authenticateUserAccountAccountsAuthenticatePost: async (
       username: any,
-      password: any,
       grantType?: any,
+      password?: any,
+      refreshToken?: any,
       scope?: any,
       clientId?: any,
       clientSecret?: any,
@@ -450,8 +458,6 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
     ): Promise<RequestArgs> => {
       // verify required parameter 'username' is not null or undefined
       assertParamExists('authenticateUserAccountAccountsAuthenticatePost', 'username', username);
-      // verify required parameter 'password' is not null or undefined
-      assertParamExists('authenticateUserAccountAccountsAuthenticatePost', 'password', password);
       const localVarPath = `/accounts/authenticate`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -475,6 +481,10 @@ export const AccountApiAxiosParamCreator = function (configuration?: Configurati
 
       if (password !== undefined) {
         localVarFormParams.set('password', password as any);
+      }
+
+      if (refreshToken !== undefined) {
+        localVarFormParams.set('refresh_token', refreshToken as any);
       }
 
       if (scope !== undefined) {
@@ -584,8 +594,9 @@ export const AccountApiFp = function (configuration?: Configuration) {
      *
      * @summary Authenticate User Account
      * @param {any} username
-     * @param {any} password
      * @param {any} [grantType]
+     * @param {any} [password]
+     * @param {any} [refreshToken]
      * @param {any} [scope]
      * @param {any} [clientId]
      * @param {any} [clientSecret]
@@ -594,8 +605,9 @@ export const AccountApiFp = function (configuration?: Configuration) {
      */
     async authenticateUserAccountAccountsAuthenticatePost(
       username: any,
-      password: any,
       grantType?: any,
+      password?: any,
+      refreshToken?: any,
       scope?: any,
       clientId?: any,
       clientSecret?: any,
@@ -603,8 +615,9 @@ export const AccountApiFp = function (configuration?: Configuration) {
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Token>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.authenticateUserAccountAccountsAuthenticatePost(
         username,
-        password,
         grantType,
+        password,
+        refreshToken,
         scope,
         clientId,
         clientSecret,
@@ -665,8 +678,9 @@ export const AccountApiFactory = function (configuration?: Configuration, basePa
       return localVarFp
         .authenticateUserAccountAccountsAuthenticatePost(
           requestParameters.username,
-          requestParameters.password,
           requestParameters.grantType,
+          requestParameters.password,
+          requestParameters.refreshToken,
           requestParameters.scope,
           requestParameters.clientId,
           requestParameters.clientSecret,
@@ -719,14 +733,21 @@ export interface AccountApiAuthenticateUserAccountAccountsAuthenticatePostReques
    * @type {any}
    * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
    */
-  readonly password: any;
+  readonly grantType?: any;
 
   /**
    *
    * @type {any}
    * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
    */
-  readonly grantType?: any;
+  readonly password?: any;
+
+  /**
+   *
+   * @type {any}
+   * @memberof AccountApiAuthenticateUserAccountAccountsAuthenticatePost
+   */
+  readonly refreshToken?: any;
 
   /**
    *
@@ -786,8 +807,9 @@ export class AccountApi extends BaseAPI {
     return AccountApiFp(this.configuration)
       .authenticateUserAccountAccountsAuthenticatePost(
         requestParameters.username,
-        requestParameters.password,
         requestParameters.grantType,
+        requestParameters.password,
+        requestParameters.refreshToken,
         requestParameters.scope,
         requestParameters.clientId,
         requestParameters.clientSecret,
