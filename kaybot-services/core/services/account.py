@@ -1,7 +1,9 @@
 from fastapi import HTTPException, status
+from jose import JWTError
 from pydantic import UUID4, EmailStr
 from sqlalchemy.orm import Session
 
+from core.authentication.token import JWTRS256Token, split_prefix_from_sub
 from core.authentication.password import Password
 from core.models import account as model, user as user_model
 from core.schemas import account as schema
@@ -95,6 +97,48 @@ def authenticate_user_account_service(session: Session, identifier: str, passwor
             status.HTTP_400_BAD_REQUEST,
             detail=create_error(message=f"an incorrect password was supplied"),
         )
+
+    return account
+
+
+def reauthenticate_user_account_service(session: Session, refresh_token: str):
+    """Reauthenticate a user using a previously provisioned token
+
+    :param session: the database session to use to create a new account
+
+    :param token: the previously provisioned token pairs
+
+    :raises HTTPException:
+        when a user account corresponding to the claims in the refresh token couldn't be found
+    """
+
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=create_error(message="Could not validate credentials"),
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    try:
+        payload = JWTRS256Token[dict[str, str]](refresh_token).decode()
+
+        sub = payload.get("sub")
+
+        if sub is None:
+            raise credentials_exception
+
+        _, account_id = split_prefix_from_sub(sub)
+
+        token_data = schema.TokenData(account_id=account_id)
+    except JWTError:
+        raise credentials_exception
+
+    try:
+        account = get_account_by_id(session, id=token_data.account_id)
+    except HTTPException as exc:
+        if exc.status_code == status.HTTP_404_NOT_FOUND:
+            raise credentials_exception
+        else:
+            raise exc
 
     return account
 

@@ -35,9 +35,10 @@ class TokenData(BaseModel):
 
 
 class TokenTypeEnum(str, Enum):
-    BEARER = "bearer"
+    BEARER = "Bearer"
 
 
 class Token(BaseModel):
     access_token: JWTRS256Token = Field(json_schema_extra={"type": "string"})
+    refresh_token: JWTRS256Token = Field(json_schema_extra={"type": "string"})
     token_type: TokenTypeEnum
