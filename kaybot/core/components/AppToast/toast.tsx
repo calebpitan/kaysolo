@@ -1,10 +1,10 @@
-import { toast, ToastOptions } from "react-toastify";
-import { AppToast, AppToastProps } from "./AppToast";
+import { toast, ToastOptions } from 'react-toastify';
+import { AppToast, AppToastProps } from './AppToast';
 
 type ToastifyToast<TData = unknown> = Omit<
   typeof toast<TData>,
   // @ts-ignore
-  (() => any) | "info" | "warn" | "warning" | "error" | "success" | "loading" | "dark"
+  (() => any) | 'info' | 'warn' | 'warning' | 'error' | 'success' | 'loading' | 'dark'
 >;
 
 type BaseFunctionType<TData = unknown, TOmit extends keyof AppToastProps = never> = <TData1 = TData>(
@@ -14,11 +14,11 @@ type BaseFunctionType<TData = unknown, TOmit extends keyof AppToastProps = never
 
 interface AppToast<TData = unknown> extends ToastifyToast<TData> {
   <TData = unknown>(props: AppToastProps, options?: ToastOptions): ReturnType<typeof toast<TData>>;
-  info: BaseFunctionType<TData, "type">;
-  warn: BaseFunctionType<TData, "type">;
-  warning: BaseFunctionType<TData, "type">;
-  error: BaseFunctionType<TData, "type">;
-  success: BaseFunctionType<TData, "type">;
+  info: BaseFunctionType<TData, 'type'>;
+  warn: BaseFunctionType<TData, 'type'>;
+  warning: BaseFunctionType<TData, 'type'>;
+  error: BaseFunctionType<TData, 'type'>;
+  success: BaseFunctionType<TData, 'type'>;
   loading: BaseFunctionType<TData>;
   dark: BaseFunctionType<TData>;
 }
@@ -37,23 +37,23 @@ apptoast.onChange = toast.onChange;
 apptoast.promise = toast.promise;
 apptoast.update = toast.update;
 
-apptoast.info = <TData = unknown,>(props: Omit<AppToastProps, "type">, options?: ToastOptions) => {
+apptoast.info = <TData = unknown,>(props: Omit<AppToastProps, 'type'>, options?: ToastOptions) => {
   return toast.info<TData>(<AppToast type="info" {...props} />, options);
 };
 
-apptoast.warn = <TData = unknown,>(props: Omit<AppToastProps, "type">, options?: ToastOptions) => {
+apptoast.warn = <TData = unknown,>(props: Omit<AppToastProps, 'type'>, options?: ToastOptions) => {
   return toast.warn<TData>(<AppToast type="warn" {...props} />, options);
 };
 
-apptoast.warning = <TData = unknown,>(props: Omit<AppToastProps, "type">, options?: ToastOptions) => {
+apptoast.warning = <TData = unknown,>(props: Omit<AppToastProps, 'type'>, options?: ToastOptions) => {
   return toast.warning<TData>(<AppToast type="warn" {...props} />, options);
 };
 
-apptoast.error = <TData = unknown,>(props: Omit<AppToastProps, "type">, options?: ToastOptions) => {
+apptoast.error = <TData = unknown,>(props: Omit<AppToastProps, 'type'>, options?: ToastOptions) => {
   return toast.error<TData>(<AppToast type="error" {...props} />, options);
 };
 
-apptoast.success = <TData = unknown,>(props: Omit<AppToastProps, "type">, options?: ToastOptions) => {
+apptoast.success = <TData = unknown,>(props: Omit<AppToastProps, 'type'>, options?: ToastOptions) => {
   return toast.success<TData>(<AppToast type="success" {...props} />, options);
 };
 
