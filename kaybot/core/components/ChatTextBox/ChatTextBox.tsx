@@ -1,18 +1,18 @@
 'use client';
 
 import { Box, FlexProps, Flex, SystemStyleObject, Textarea, IconButton, Icon } from '@/chakra-ui/react';
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 import { IoSend } from 'react-icons/io5';
 
 import styles from './index.module.css';
 
 export interface ChatTextBoxProps extends Omit<FlexProps, 'onChange'> {
+  value: string;
   onChange?: (message: string) => void;
   onSend?: () => void;
 }
 
-export const ChatTextBox = ({ onChange, onSend, ...props }: ChatTextBoxProps) => {
-  const [value, setValue] = useState('');
+export const ChatTextBox = ({ value, onChange, onSend, ...props }: ChatTextBoxProps) => {
   const sty: SystemStyleObject = {
     py: 0,
     fontSize: 'md',
@@ -25,14 +25,18 @@ export const ChatTextBox = ({ onChange, onSend, ...props }: ChatTextBoxProps) =>
 
     if (!box) return;
 
-    setValue(evt.target.value);
     onChange?.(evt.target.value);
-
-    box.dataset.value = evt.target.value;
   };
 
   const handleSend = (_evt: MouseEvent<HTMLButtonElement>) => {
     onSend?.();
+  };
+
+  const handleKeyDown = (evt: KeyboardEvent) => {
+    if (evt.key === 'Enter' && !evt.shiftKey) {
+      evt.preventDefault();
+      '' !== value.trim() && onSend?.();
+    }
   };
 
   return (
@@ -57,6 +61,7 @@ export const ChatTextBox = ({ onChange, onSend, ...props }: ChatTextBoxProps) =>
         display="inline-grid"
         position="relative"
         alignItems="center"
+        data-value={value}
         _after={{
           ...sty,
           content: 'attr(data-value) " "',
@@ -76,6 +81,7 @@ export const ChatTextBox = ({ onChange, onSend, ...props }: ChatTextBoxProps) =>
           overflow="auto"
           value={value}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
           focusBorderColor="transparent"
           placeholder="Send a message"
           _placeholder={{ color: 'gray.500' }}
