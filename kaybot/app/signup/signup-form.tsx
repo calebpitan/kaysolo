@@ -3,24 +3,50 @@
 import { Link } from '@/chakra-ui/next-js';
 import { FormControl, HStack, Input, InputGroup, VStack } from '@/chakra-ui/react';
 
+import { toast } from '@/core/components/AppToast';
 import { PrimaryButton } from '@/core/components/Button';
 import { Form } from '@/core/components/Form';
 import { InputErrorMessage } from '@/core/components/InputErrorMessage';
 import { InputLabel } from '@/core/components/InputLabel';
 import { PasswordInput } from '@/core/components/PasswordInput';
+import { ConfigContext, actions } from '@/core/components/Providers';
 import { Typography } from '@/core/components/Typography';
 import { SignupCredentials } from '@/core/services';
+import { useAuthenticateAccountService } from '@/core/services/account/authenticate.service';
+import { useCreateAccountService } from '@/core/services/account/create.service';
+import { REFRESH_TOKEN_KEY, storeToken } from '@/core/utils';
+
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useContext } from 'react';
 
 export const SignupForm = () => {
+  const router = useRouter();
+  const { updateConfig } = useContext(ConfigContext);
   const { register, handleSubmit, formState } = useForm<SignupCredentials>({
     resolver: classValidatorResolver(SignupCredentials),
   });
 
   const { errors } = formState;
 
-  const signup: SubmitHandler<SignupCredentials> = (_data) => {};
+  const signupHandler = useCreateAccountService();
+  const signinHandler = useAuthenticateAccountService();
+
+  const signup: SubmitHandler<SignupCredentials> = async (data) => {
+    const { data: account } = await signupHandler.mutateAsync(data);
+    const response = await signinHandler.mutateAsync({ email: data.email, password: data.password });
+
+    storeToken(response.data.access_token);
+    storeToken(response.data.refresh_token, REFRESH_TOKEN_KEY);
+
+    updateConfig(actions.createHasActiveSessionUpdateAction(true));
+    updateConfig(actions.createUserAccountUpdateAction(account));
+
+    toast.success({ title: 'Account Created', message: `You just successfully created an account!` });
+
+    router.replace('/chat');
+  };
 
   return (
     <Form

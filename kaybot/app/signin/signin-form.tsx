@@ -8,19 +8,38 @@ import { Form } from '@/core/components/Form';
 import { InputErrorMessage } from '@/core/components/InputErrorMessage';
 import { InputLabel } from '@/core/components/InputLabel';
 import { PasswordInput } from '@/core/components/PasswordInput';
+import { ConfigContext, actions } from '@/core/components/Providers';
 import { Typography } from '@/core/components/Typography';
 import { SigninCredentials } from '@/core/services';
+import { useAuthenticateAccountService } from '@/core/services/account';
+import { REFRESH_TOKEN_KEY, storeToken } from '@/core/utils';
+
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
+import { useRouter } from 'next/navigation';
+import { useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export const SigninForm = () => {
+  const router = useRouter();
+  const { updateConfig } = useContext(ConfigContext);
   const { register, handleSubmit, formState } = useForm<SigninCredentials>({
     resolver: classValidatorResolver(SigninCredentials),
   });
 
   const { errors } = formState;
 
-  const signin: SubmitHandler<SigninCredentials> = (_data) => {};
+  const signinHandler = useAuthenticateAccountService();
+
+  const signin: SubmitHandler<SigninCredentials> = async (data) => {
+    const response = await signinHandler.mutateAsync(data);
+
+    storeToken(response.data.access_token);
+    storeToken(response.data.refresh_token, REFRESH_TOKEN_KEY)
+
+    updateConfig(actions.createHasActiveSessionUpdateAction(true));
+
+    router.replace('/chat');
+  };
 
   return (
     <Form
