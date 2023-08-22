@@ -1,10 +1,10 @@
 import uvicorn
 
 from fastapi import FastAPI, Request
-from fastapi.exceptions import ResponseValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from core.exceptions.http import AppHTTPException
 from core.schemas.base import ApplicationInfo
 from core.settings import settings
 
@@ -31,6 +31,14 @@ app.add_middleware(
 app.include_router(account_router, prefix="/accounts", tags=["Account"])
 app.include_router(chat_router, prefix="/chats", tags=["Chat"])
 app.include_router(user_router, prefix="/users", tags=["User"])
+
+
+@app.exception_handler(AppHTTPException)
+def app_http_exception_handler(request: Request, exc: AppHTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"message": exc.message, "success": False, "info": {"code": exc.code}},
+    )
 
 
 @app.get("/", tags=["Root"], response_model=ApplicationInfo)
