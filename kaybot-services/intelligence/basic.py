@@ -20,9 +20,13 @@ class PersonalityBackground(Enum):
     ADVANCED = 1
 
 
-class Prompt(dict):
+class Prompt(object):
     system: str
     user: str
+
+    def __init__(self, *, system: str, user: str):
+        self.system = system
+        self.user = user
 
 
 def generate_prompt(
@@ -38,11 +42,11 @@ def generate_prompt(
 
     system = f"{background}\n\n{PERSONALITY}"
 
-    return {"system": system, "user": question}
+    return Prompt(system=system, user=question)
 
 
 def generate_response(
-    prompt: Prompt, max_tokens=100, temperature=0.5
+    prompt: Prompt, max_tokens=500, temperature=0.5
 ) -> ChatCompletionResponse:
     """Generate a response to an given prompt.
     The prompt is programmed such that the GPT is given a
@@ -57,8 +61,8 @@ def generate_response(
         temperature=temperature,
         max_tokens=max_tokens,
         messages=[
-            {"role": "system", "content": prompt.get("system")},
-            {"role": "user", "content": prompt.get("user")},
+            {"role": "system", "content": prompt.system},
+            {"role": "user", "content": prompt.user},
         ],
     )
 
