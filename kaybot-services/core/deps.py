@@ -1,13 +1,13 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from jose import JWTError
 from sqlalchemy.orm import Session
 
 from core.authentication.oauth2 import oauth2_scheme
+from core.exceptions.http import NotFoundException, UnauthorizedException
 from core.services.account import get_account_by_id
 from core.schemas.account import TokenData
-from core.utils import create_error
 
 from .authentication.token import JWTRS256Token, split_prefix_from_sub
 from .database.engine import SessionLocal
@@ -27,9 +27,8 @@ def get_current_account(
     token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db),
 ):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail=create_error(message="Could not validate credentials"),
+    credentials_exception = UnauthorizedException(
+        message="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
@@ -52,10 +51,7 @@ def get_current_account(
 
     try:
         account = get_account_by_id(db, id=token_data.account_id)
-    except HTTPException as exc:
-        if exc.status_code == status.HTTP_404_NOT_FOUND:
-            raise credentials_exception
-        else:
-            raise exc
+    except NotFoundException:
+        raise credentials_exception
 
     return account

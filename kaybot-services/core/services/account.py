@@ -1,13 +1,16 @@
-from fastapi import HTTPException, status
 from jose import JWTError
 from pydantic import UUID4, EmailStr
 from sqlalchemy.orm import Session
 
 from core.authentication.token import JWTRS256Token, split_prefix_from_sub
 from core.authentication.password import Password
+from core.exceptions.http import (
+    BadRequestException,
+    NotFoundException,
+    UnauthorizedException,
+)
 from core.models import account as model, user as user_model
 from core.schemas import account as schema
-from core.utils import create_error
 
 from .user import get_user_by_username
 
@@ -20,7 +23,7 @@ def create_user_account_service(session: Session, credentials: schema.AccountCre
 
     :param credentials: the credentials or data to use to create a new account
 
-    :raises HTTPException:
+    :raises BadRequestException:
         - if account with email already exists or,
         - if user with username already exists
     """
@@ -48,23 +51,17 @@ def create_user_account_service(session: Session, credentials: schema.AccountCre
             session,
             username=credentials.user.username,
         )
-    except HTTPException:
+    except NotFoundException:
         pass
 
     if not existing_account is None:
-        raise HTTPException(
-            400,
-            create_error(
-                message=f"email address [{credentials.email}] is already in use"
-            ),
+        raise BadRequestException(
+            message=f"email address [{credentials.email}] is already in use"
         )
 
     if not existing_user is None:
-        raise HTTPException(
-            400,
-            create_error(
-                message=f"username [{credentials.user.username}] is already in use"
-            ),
+        raise BadRequestException(
+            message=f"username [{credentials.user.username}] is already in use"
         )
 
     session.add(account)
@@ -84,19 +81,18 @@ def authenticate_user_account_service(session: Session, identifier: str, passwor
 
     :param password: the plain text user account password used to confirm access integrity
 
-    :raises HTTPException:
-        - when an account with the identifier or email couldn't be found or,
-        - when the plain password supplied doesn't match the hashed password stored.
+    :raises NotFoundException:
+        when an account with the identifier or email couldn't be found
+
+    :raises BadRequestException:
+        when the plain password supplied doesn't match the hashed password stored.
     """
 
     account = get_account_by_email(session, email=identifier)
     password_object = Password(plain_password=password)
 
     if not password_object.compare(hashed_password=account.password):
-        raise HTTPException(
-            status.HTTP_400_BAD_REQUEST,
-            detail=create_error(message=f"an incorrect password was supplied"),
-        )
+        raise BadRequestException(message=f"an incorrect password was supplied")
 
     return account
 
@@ -108,13 +104,12 @@ def reauthenticate_user_account_service(session: Session, refresh_token: str):
 
     :param token: the previously provisioned token pairs
 
-    :raises HTTPException:
+    :raises UnauthorizedException:
         when a user account corresponding to the claims in the refresh token couldn't be found
     """
 
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail=create_error(message="Could not validate credentials"),
+    credentials_exception = UnauthorizedException(
+        message="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
@@ -134,11 +129,8 @@ def reauthenticate_user_account_service(session: Session, refresh_token: str):
 
     try:
         account = get_account_by_id(session, id=token_data.account_id)
-    except HTTPException as exc:
-        if exc.status_code == status.HTTP_404_NOT_FOUND:
-            raise credentials_exception
-        else:
-            raise exc
+    except NotFoundException:
+        raise credentials_exception
 
     return account
 
@@ -150,17 +142,14 @@ def get_account_by_id(session: Session, id: UUID4):
 
     :param id: the user account id to use to retrieve the account
 
-    :raises HTTPException:
+    :raises NotFoundException:
         if account with the specified id couldn't be found
     """
 
     account = session.query(model.Account).filter(model.Account.id == id).one_or_none()
 
     if account is None:
-        raise HTTPException(
-            status.HTTP_404_NOT_FOUND,
-            detail=create_error(message=f"account with id [{id}] not found"),
-        )
+        raise NotFoundException(message=f"account with id [{id}] not found")
 
     return account
 
@@ -172,7 +161,7 @@ def get_account_by_email(session: Session, email: EmailStr):
 
     :param email: the user account email address to use to retrieve the account
 
-    :raises HTTPException:
+    :raises NotFoundException:
         if account with the specified email address couldn't be found
     """
 
@@ -181,11 +170,8 @@ def get_account_by_email(session: Session, email: EmailStr):
     )
 
     if account is None:
-        raise HTTPException(
-            status.HTTP_404_NOT_FOUND,
-            detail=create_error(
-                message=f"account with email address [{email}] not found"
-            ),
+        raise NotFoundException(
+            message=f"account with email address [{email}] not found"
         )
 
     return account

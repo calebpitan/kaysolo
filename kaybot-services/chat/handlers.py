@@ -2,9 +2,10 @@ import openai
 
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 
 from core.deps import get_current_account
+from core.exceptions.http import ServiceUnavailableException
 from core.models.account import Account
 from core.schemas.chat import MessageCreate
 from core.schemas.openai import ChatCompletionResponse
@@ -25,10 +26,10 @@ def create_message(
 
     :param message: The message object containing the message body to send
 
-    :raises HTTPException:
+    :raises ServiceUnavailableException:
         503 -> when it fails to establish a successful communication with third party API
-
     """
+
     prompt = generate_prompt(
         question=message.message_body,
         background_type=PersonalityBackground.SIMPLE,
@@ -38,9 +39,9 @@ def create_message(
         response = generate_response(prompt=prompt)
     except openai.OpenAIError as error:
         # TODO: Add logger and log error
-        raise HTTPException(
-            status.HTTP_503_SERVICE_UNAVAILABLE,
-            create_error(message="Failed to establish outbound communication"),
+
+        raise ServiceUnavailableException(
+            message="Failed to establish outbound communication"
         )
 
     return {"response": response}
