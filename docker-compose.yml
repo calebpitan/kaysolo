@@ -26,6 +26,7 @@ services:
     environment:
       - SERVER_BASE_URL=http://localhost:${PORT} # $PORT here is web_server port
       - PORT=${CLIENT_PORT} # Assign $CLIENT_PORT to $PORT env var in web_client
+    restart: unless-stopped
 
   web_server:
     build:
@@ -51,6 +52,7 @@ services:
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: unless-stopped
 
   redis:
     image: "redis:alpine"
