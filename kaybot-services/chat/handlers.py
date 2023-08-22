@@ -6,11 +6,10 @@ from fastapi import Depends
 
 from core.deps import get_current_account
 from core.exceptions.http import ServiceUnavailableException
+from core.intelligence.basic import generate_prompt, generate_response, PersonalityBackground
 from core.models.account import Account
 from core.schemas.chat import MessageCreate
 from core.schemas.openai import ChatCompletionResponse
-from core.utils import create_error
-from intelligence.basic import generate_prompt, generate_response, PersonalityBackground
 
 from .router import router
 
@@ -27,7 +26,7 @@ def create_message(
     :param message: The message object containing the message body to send
 
     :raises ServiceUnavailableException:
-        503 -> when it fails to establish a successful communication with third party API
+        when it fails to establish a successful communication with third party API
     """
 
     prompt = generate_prompt(

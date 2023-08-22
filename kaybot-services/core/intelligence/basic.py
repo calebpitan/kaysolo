@@ -2,9 +2,9 @@ import openai
 
 from enum import Enum
 
-from intelligence.personality import ADVANCED_BACKGROUND, PERSONALITY, SIMPLE_BACKGROUND
 from core.schemas.openai import ChatCompletionResponse
 
+from .personality import ADVANCED_BACKGROUND, PERSONALITY, SIMPLE_BACKGROUND
 
 class PersonalityBackground(Enum):
     """A simple enum used to award background information to a personality
