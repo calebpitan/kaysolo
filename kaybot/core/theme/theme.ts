@@ -7,7 +7,8 @@ import {
   Textarea,
   ThemeConfig,
   withDefaultColorScheme,
-} from '@chakra-ui/react';
+} from '@/chakra-ui/react';
+
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools';
 import { rgba } from 'polished';
 

@@ -1,7 +1,10 @@
+import { Box, BoxProps, Flex, FlexProps, HStack, StackProps, VStack } from '@/chakra-ui/react';
+
 import { Merge } from '@/core/utils';
-import { Box, BoxProps, Flex, FlexProps, HStack, StackProps, VStack } from '@chakra-ui/react';
+
 import { HTMLMotionProps, motion } from 'framer-motion';
 import { RefAttributes } from 'react';
+
 import { Typography, TypographyProps } from '../Typography';
 
 export type MotionBoxProps = Merge<BoxProps, HTMLMotionProps<'div'>> & RefAttributes<any>;
