@@ -856,7 +856,7 @@ export class AccountApi extends BaseAPI {
 export const ChatApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises ServiceUnavailableException:     when it fails to establish a successful communication with third party API
      * @summary Create Message
      * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
@@ -907,7 +907,7 @@ export const ChatApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChatApiAxiosParamCreator(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises ServiceUnavailableException:     when it fails to establish a successful communication with third party API
      * @summary Create Message
      * @param {MessageCreate} messageCreate
      * @param {*} [options] Override http request option.
@@ -931,7 +931,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
   const localVarFp = ChatApiFp(configuration);
   return {
     /**
-     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
+     * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises ServiceUnavailableException:     when it fails to establish a successful communication with third party API
      * @summary Create Message
      * @param {ChatApiCreateMessageChatsMessagePostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -970,7 +970,7 @@ export interface ChatApiCreateMessageChatsMessagePostRequest {
  */
 export class ChatApi extends BaseAPI {
   /**
-   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises HTTPException:     503 -> when it fails to establish a successful communication with third party API
+   * An endpoint to post messages and expect a response. The messages are reconstructed into a valuable prompt and sent over to OpenAI\'s API which most likely responds with a message.  :param message: The message object containing the message body to send  :raises ServiceUnavailableException:     when it fails to establish a successful communication with third party API
    * @summary Create Message
    * @param {ChatApiCreateMessageChatsMessagePostRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -1093,7 +1093,7 @@ export class RootApi extends BaseAPI {
 export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises NotFoundException:     if no user with the specified identifier or ID is found
      * @summary Find User By Id
      * @param {any} id
      * @param {*} [options] Override http request option.
@@ -1124,7 +1124,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
       };
     },
     /**
-     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises NotFoundException:     if no user that goes by a username is found
      * @summary Find User By Username
      * @param {any} username
      * @param {*} [options] Override http request option.
@@ -1172,7 +1172,7 @@ export const UserApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration);
   return {
     /**
-     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises NotFoundException:     if no user with the specified identifier or ID is found
      * @summary Find User By Id
      * @param {any} id
      * @param {*} [options] Override http request option.
@@ -1186,7 +1186,7 @@ export const UserApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises NotFoundException:     if no user that goes by a username is found
      * @summary Find User By Username
      * @param {any} username
      * @param {*} [options] Override http request option.
@@ -1210,7 +1210,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
   const localVarFp = UserApiFp(configuration);
   return {
     /**
-     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+     * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises NotFoundException:     if no user with the specified identifier or ID is found
      * @summary Find User By Id
      * @param {UserApiFindUserByIdUsersIdGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -1225,7 +1225,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         .then((request) => request(axios, basePath));
     },
     /**
-     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+     * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises NotFoundException:     if no user that goes by a username is found
      * @summary Find User By Username
      * @param {UserApiFindUserByUsernameUsersByUsernameGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -1278,7 +1278,7 @@ export interface UserApiFindUserByUsernameUsersByUsernameGetRequest {
  */
 export class UserApi extends BaseAPI {
   /**
-   * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises HTTPException:     if no user with the specified identifier or ID is found
+   * Find a user by ID  :param session: the database session to use :param id: the unique user identifier to use to retrieve the user  :raises NotFoundException:     if no user with the specified identifier or ID is found
    * @summary Find User By Id
    * @param {UserApiFindUserByIdUsersIdGetRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -1292,7 +1292,7 @@ export class UserApi extends BaseAPI {
   }
 
   /**
-   * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises HTTPException:     if no user that goes by a username is found
+   * Find a user by username  :param session: the database session to use :param username: the unique username to use to retrieve the user  :raises NotFoundException:     if no user that goes by a username is found
    * @summary Find User By Username
    * @param {UserApiFindUserByUsernameUsersByUsernameGetRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
