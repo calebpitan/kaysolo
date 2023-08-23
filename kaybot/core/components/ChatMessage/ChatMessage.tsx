@@ -13,10 +13,10 @@ export const ChatMesssage = ({ message, role, ...rest }: ChatMessageProps) => {
       py={2}
       width="full"
       alignItems="baseline"
-      bgColor={role === 'user' ? 'whiteAlpha.100' : undefined}
+      bgColor={role === 'assistant' ? 'whiteAlpha.100' : undefined}
       {...rest}
     >
-      <Avatar name={role} size="sm" />
+      <Avatar name={role} size="sm" position="sticky" top={0}/>
 
       <Box>
         <Typography whiteSpace="pre-wrap">{message}</Typography>
