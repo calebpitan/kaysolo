@@ -1,6 +1,8 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { AppProvider } from '@/core/components/providers';
+import { AppProvider } from '@/core/components/Providers';
+
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 
