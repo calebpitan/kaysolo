@@ -7,7 +7,7 @@ import { api } from '../base';
 
 export async function reauthenticateAccountService(refreshToken: string) {
   const authenticateAccount = await accountClient.authenticateUserAccountAccountsAuthenticatePost(
-    '',
+    'username', // not necessary but API requires it
     'refresh_token',
     undefined,
     refreshToken,

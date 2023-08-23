@@ -1,5 +1,5 @@
-import { AccountApiFp } from '@/client';
+import { AccountApiFp } from '@/client/api';
 
-import { configuration } from '../base';
+import { configuration } from '../config';
 
 export const accountClient = AccountApiFp(configuration);

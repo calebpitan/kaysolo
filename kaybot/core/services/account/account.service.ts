@@ -1,10 +1,11 @@
+import { Account } from '@/client/api';
+
 import { useQuery } from '@tanstack/react-query';
 
 import { accountClient } from './client';
 
 import { api } from '../base';
 import { BaseQueryServiceOptions } from '../types';
-import { Account } from '@/client';
 
 export interface IdentifyUserAccountService<S> extends BaseQueryServiceOptions<Account, unknown, S> {}
 

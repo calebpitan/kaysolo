@@ -1,5 +1,5 @@
-import { ChatApiFp } from '@/client';
+import { ChatApiFp } from '@/client/api';
 
-import { configuration } from '../base';
+import { configuration } from '../config';
 
 export const chatClient = ChatApiFp(configuration);
