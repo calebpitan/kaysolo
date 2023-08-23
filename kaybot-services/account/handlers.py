@@ -33,7 +33,7 @@ def authenticate_user_account(
 ):
     if form_data.grant_type == "refresh_token":
         account = reauthenticate_user_account_service(
-            db, form_data.refresh_token if hasattr("refresh_token") else ""
+            db, form_data.refresh_token if hasattr(form_data, "refresh_token") else ""
         )
     else:
         account = authenticate_user_account_service(
