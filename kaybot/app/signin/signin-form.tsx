@@ -15,12 +15,13 @@ import { useAuthenticateAccountService } from '@/core/services/account';
 import { REFRESH_TOKEN_KEY, storeToken } from '@/core/utils';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 export const SigninForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { updateConfig } = useContext(ConfigContext);
   const { register, handleSubmit, formState } = useForm<SigninCredentials>({
     resolver: classValidatorResolver(SigninCredentials),
@@ -34,9 +35,15 @@ export const SigninForm = () => {
     const response = await signinHandler.mutateAsync(data);
 
     storeToken(response.data.access_token);
-    storeToken(response.data.refresh_token, REFRESH_TOKEN_KEY)
+    storeToken(response.data.refresh_token, REFRESH_TOKEN_KEY);
 
     updateConfig(actions.createHasActiveSessionUpdateAction(true));
+
+    const addressToReturnTo = searchParams.get('return');
+
+    if (addressToReturnTo) {
+      return router.replace(addressToReturnTo);
+    }
 
     router.replace('/chat');
   };
@@ -74,7 +81,7 @@ export const SigninForm = () => {
           <InputErrorMessage message={errors.password?.message} />
         </FormControl>
 
-        <PrimaryButton width="full" type="submit">
+        <PrimaryButton width="full" type="submit" isLoading={signinHandler.isLoading}>
           Sign in
         </PrimaryButton>
       </VStack>

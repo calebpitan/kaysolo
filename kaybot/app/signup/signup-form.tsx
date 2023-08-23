@@ -113,7 +113,7 @@ export const SignupForm = () => {
           <InputErrorMessage message={errors.password?.message} />
         </FormControl>
 
-        <PrimaryButton width="full" type="submit">
+        <PrimaryButton width="full" type="submit" isLoading={signupHandler.isLoading || signinHandler.isLoading}>
           Create account
         </PrimaryButton>
       </VStack>
