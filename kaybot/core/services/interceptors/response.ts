@@ -72,8 +72,8 @@ export const createResponseErrorInterceptor = (api: AxiosInstance) => {
         return rejection();
       }
 
-      storeToken(ACCESS_TOKEN_KEY, newAccessToken);
-      storeToken(REFRESH_TOKEN_KEY, newRefreshToken);
+      storeToken(newAccessToken, ACCESS_TOKEN_KEY);
+      storeToken(newRefreshToken, REFRESH_TOKEN_KEY);
 
       const authorization = `${newTokensType} ${newAccessToken}`;
 
