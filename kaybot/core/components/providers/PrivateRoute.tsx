@@ -23,5 +23,5 @@ export const PrivateRoute = (props: PrivateRouteProps) => {
   if (config.session_loader_state === 'loaded' && config.has_active_session)
     return <Fragment>{props.children}</Fragment>;
 
-  return <SplashScreen />;
+  return <SplashScreen title={config.application_config.name} />;
 };
