@@ -1,9 +1,13 @@
 import { Avatar, Box, HStack, StackProps } from '@/chakra-ui/react';
+
+import { ReactNode } from 'react';
+
 import { Typography } from '../Typography';
 
 export interface ChatMessageProps extends StackProps {
-  message: string;
-  role: 'user' | 'assistant';
+  message: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  role: 'user' | 'assistant' | (string & {});
 }
 
 export const ChatMesssage = ({ message, role, ...rest }: ChatMessageProps) => {
@@ -16,7 +20,7 @@ export const ChatMesssage = ({ message, role, ...rest }: ChatMessageProps) => {
       bgColor={role === 'assistant' ? 'whiteAlpha.100' : undefined}
       {...rest}
     >
-      <Avatar name={role} size="sm" position="sticky" top={0}/>
+      <Avatar name={role} size="sm" position="sticky" top={0} />
 
       <Box>
         <Typography whiteSpace="pre-wrap">{message}</Typography>
