@@ -1,10 +1,11 @@
 import uvicorn
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from core.exceptions.http import AppHTTPException
+from core.exceptions.http import AppHTTPException, ErrorCode
 from core.schemas.base import ApplicationInfo
 from core.settings import settings
 
@@ -38,6 +39,32 @@ def app_http_exception_handler(request: Request, exc: AppHTTPException):
     return JSONResponse(
         status_code=exc.status_code,
         content={"message": exc.message, "success": False, "info": {"code": exc.code}},
+    )
+
+
+@app.exception_handler(RequestValidationError)
+def request_validation_exception_handler(request: Request, exc: RequestValidationError):
+    content = {
+        "message": "The input could not be processed as it is invalid",
+        "success": False,
+        "info": {
+            "code": ErrorCode.UNPROCESSABLE_ENTITY,
+            "errors": [
+                {
+                    "type": error["type"],
+                    "context": error["ctx"],
+                    "path": error["loc"],
+                    "message": error["msg"],
+                    "value": error["input"],
+                }
+                for error in exc.errors()
+            ],
+        },
+    }
+
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content=content,
     )
 
 
