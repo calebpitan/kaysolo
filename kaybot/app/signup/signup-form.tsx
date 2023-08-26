@@ -12,8 +12,7 @@ import { PasswordInput } from '@/core/components/PasswordInput';
 import { ConfigContext, actions } from '@/core/components/Providers';
 import { Typography } from '@/core/components/Typography';
 import { SignupCredentials } from '@/core/services';
-import { useAuthenticateAccountService } from '@/core/services/account/authenticate.service';
-import { useCreateAccountService } from '@/core/services/account/create.service';
+import { useAuthenticateAccountService, useCreateAccountService } from '@/core/services/account';
 import { REFRESH_TOKEN_KEY, storeToken } from '@/core/utils';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
