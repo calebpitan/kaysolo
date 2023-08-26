@@ -13,7 +13,7 @@ export const ChatBox = ({ children, ...rest }: ChatBoxProps) => {
       backdropFilter="auto"
       backdropBlur="xl"
       backdropSaturate="180%"
-      bgColor="whiteAlpha.400"
+      bgColor="whiteAlpha.300"
       position="absolute"
       borderTopRadius="2xl"
       width={700}
