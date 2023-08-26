@@ -10,9 +10,10 @@ export interface ChatTextBoxProps extends Omit<FlexProps, 'onChange'> {
   value: string;
   onChange?: (message: string) => void;
   onSend?: () => void;
+  isSendDisabled?: boolean;
 }
 
-export const ChatTextBox = ({ value, onChange, onSend, ...props }: ChatTextBoxProps) => {
+export const ChatTextBox = ({ value, isSendDisabled = false, onChange, onSend, ...props }: ChatTextBoxProps) => {
   const sty: SystemStyleObject = {
     py: 0,
     fontSize: 'md',
@@ -90,7 +91,16 @@ export const ChatTextBox = ({ value, onChange, onSend, ...props }: ChatTextBoxPr
       </Box>
 
       <Box alignSelf="flex-end" ms={3} position="sticky" top={'calc(100% - 2rem)'} right={0}>
-        <IconButton aria-label="Send" borderRadius="xl" size="sm" onClick={handleSend}>
+        <IconButton
+          aria-label="Send"
+          size="sm"
+          borderRadius="xl"
+          colorScheme="brand"
+          bgColor="brand.500"
+          color="brand.text.500"
+          onClick={handleSend}
+          isDisabled={isSendDisabled}
+        >
           <Icon as={IoSend} />
         </IconButton>
       </Box>
