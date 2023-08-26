@@ -1,19 +1,31 @@
-import { VStack } from '@/chakra-ui/react';
+'use client';
 
-import { AppName } from '@/core/components/AppBar';
+import { Box, VStack } from '@/chakra-ui/react';
 
-import styles from './splash-screen.module.css';
+import { getThemeColor } from '@/core/utils';
 
-export const SplashScreen = () => {
+import { InfinitySpin } from 'react-loader-spinner';
+
+import { styles } from './SplashScreenStyles';
+
+import { AppName } from '../AppBar/AppName';
+
+export interface SplashScreenProps {
+  title: string;
+}
+
+export const SplashScreen = (props: SplashScreenProps) => {
   return (
-    <main className={styles.main}>
-      <div className={styles.center}>
-        <AppName textStyle="h2" />
-      </div>
+    <Box css={styles.main}>
+      <Box css={styles.center}>
+        <AppName textStyle="h2" name={props.title} />
+      </Box>
 
-      <VStack width="full" spacing={6}></VStack>
+      <VStack width="full" spacing={6}>
+        <InfinitySpin width="200" color={getThemeColor('brand.500')} />
+      </VStack>
 
-      <div className={styles.grid}></div>
-    </main>
+      <Box css={styles.grid}></Box>
+    </Box>
   );
 };
