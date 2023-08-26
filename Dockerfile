@@ -10,6 +10,13 @@ CMD ["python", "./main.py"]
 # Build client
 FROM node:16-alpine AS client-build
 
+# Run with `--build-arg server_base_url=http://example.com`
+ARG server_base_url
+
+# Required for build as communication is made to server
+# during build (`yarn build`)
+ENV SERVER_BASE_URL=$server_base_url
+
 # Define working directory for client
 WORKDIR /kaysolo/dissertation/kaybot
 

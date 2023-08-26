@@ -4,6 +4,10 @@ from decouple import config
 from pydantic_settings import BaseSettings
 
 
+def get_default_description(app_name: str) -> str:
+    return f"{app_name} is a chatbot that can be utilized for lead generation in the field of digital marketing."
+
+
 class Settings(BaseSettings):
     """Base configurations for the kaybot-services application"""
 
@@ -11,16 +15,22 @@ class Settings(BaseSettings):
     APP_CODE_NAME: str = config("APP_CODE_NAME", cast=str)
     PORT: int = config("PORT", cast=int)
 
-    DESCRIPTION: str = "KayBot is a chatbot that can be utilized for lead generation in the field of digital marketing."
+    DESCRIPTION: str = config(
+        "APP_DESC",
+        default=get_default_description(APP_NAME),
+        cast=str,
+    )
 
     CLIENT_HOSTS: list[str] = config(
-        "CLIENT_ADDRESSES", cast=lambda x: [v.strip() for v in x.split(",")]
+        "CLIENT_ADDRESSES",
+        cast=lambda x: [v.strip() for v in x.split(",")],
     )
 
     JWT_ALGORITHM: Literal["RS256"] = "RS256"
     JWT_RS256_KEY: str = config("JWT_RS256_KEY", cast=lambda x: x.replace(r"\n", "\n"))
     JWT_RS256_PUB_KEY: str = config(
-        "JWT_RS256_PUB_KEY", cast=lambda x: x.replace(r"\n", "\n")
+        "JWT_RS256_PUB_KEY",
+        cast=lambda x: x.replace(r"\n", "\n"),
     )
     TOKEN_EXPIRY: int = config("TOKEN_EXPIRY", cast=int)
 
