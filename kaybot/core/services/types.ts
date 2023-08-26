@@ -20,7 +20,7 @@ export enum ErrorCodeEnum {
 export interface ErrorPayload {
   message: string;
   success: false;
-  info: { code: ErrorCodeEnum };
+  info: { code: ErrorCodeEnum; [x: string]: any };
 }
 
 export type WithId<T> = T & { id: string };
