@@ -1,16 +1,21 @@
 'use client';
 
 import { Flex, FlexProps, useColorModeValue } from '@/chakra-ui/react';
+
+import { APP_NAME } from '@/core/utils';
+
 import { Typography } from '../Typography';
 
-export interface AppNameProps extends FlexProps {}
+export interface AppNameProps extends FlexProps {
+  name?: string;
+}
 
-export const AppName = (props: AppNameProps) => {
+export const AppName = ({ name = APP_NAME, ...props }: AppNameProps) => {
   return (
     <Flex
       p={3}
       alignItems="center"
-      color={useColorModeValue('blackAlpha.400', 'whiteAlpha.500')}
+      color={useColorModeValue('blackAlpha.500', 'whiteAlpha.500')}
       textStyle="h4"
       {...props}
     >
@@ -23,7 +28,7 @@ export const AppName = (props: AppNameProps) => {
         letterSpacing="tighter"
         userSelect="none"
       >
-        KAYBOT
+        {name}
       </Typography>
     </Flex>
   );
