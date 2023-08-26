@@ -1,5 +1,3 @@
-import { useMutation } from '@tanstack/react-query';
-
 import { accountClient } from './client';
 import { SigninCredentials } from './dto';
 
@@ -18,22 +16,14 @@ export async function reauthenticateAccountService(refreshToken: string) {
   return response;
 }
 
-export function useAuthenticateAccountService() {
-  return useMutation({
-    mutationFn: async (signin: SigninCredentials) => {
-      const authenticateAccount = await accountClient.authenticateUserAccountAccountsAuthenticatePost(
-        signin.email,
-        'password',
-        signin.password,
-      );
+export async function authenticateAccountService(signin: SigninCredentials) {
+  const authenticateAccount = await accountClient.authenticateUserAccountAccountsAuthenticatePost(
+    signin.email,
+    'password',
+    signin.password,
+  );
 
-      const response = await authenticateAccount(api);
+  const response = await authenticateAccount(api);
 
-      return response;
-    },
-  });
-}
-
-export function useReuthenticateAccountService() {
-  return useMutation({ mutationFn: reauthenticateAccountService });
+  return response;
 }
