@@ -20,7 +20,7 @@ export function isErrorResponse(error: unknown): error is ErrorPayload {
   if (typeof error === 'object' && 'message' in error && 'info' in error && 'success' in error) {
     const err = error as ErrorPayload;
 
-    return err.success;
+    return !err.success;
   }
 
   return false;
