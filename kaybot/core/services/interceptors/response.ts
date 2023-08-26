@@ -82,7 +82,6 @@ export const createResponseErrorInterceptor = (api: AxiosInstance) => {
         headers: { ...err.config!.headers, authorization: authorization },
       };
 
-      //@ts-ignore
       const retry = await api(newConfig);
       return retry;
     }
