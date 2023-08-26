@@ -14,8 +14,10 @@ const nextConfig = {
     return config;
   },
   env: {
-    SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+    APP_NAME: process.env.APP_NAME,
     PORT: process.env.PORT,
+    SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+    SERVER_INTERNAL_ADDRESS: process.env.SERVER_INTERNAL_ADDRESS,
   },
 };
 
