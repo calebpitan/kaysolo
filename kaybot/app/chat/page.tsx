@@ -5,11 +5,13 @@ import { Box, Flex, VStack } from '@/chakra-ui/react';
 import { ChatBox } from '@/core/components/ChatBox';
 import { ChatMesssage } from '@/core/components/ChatMessage';
 import { ChatTextBox } from '@/core/components/ChatTextBox';
+import { FlowBalls } from '@/core/components/Loader';
 import { ConfigContext, PrivateRoute } from '@/core/components/Providers';
 import { ChatLayout } from '@/core/composition/ChatLayout';
 import { useSendMessage } from '@/core/services';
 import { fullname } from '@/core/utils';
-import { useContext, useState } from 'react';
+
+import { useContext, useEffect, useState } from 'react';
 
 export interface Conversation {
   role: 'assistant' | 'user';
@@ -24,14 +26,34 @@ const Chat = () => {
   const { config } = useContext(ConfigContext);
   const user = config.session.user_account?.user;
 
-  const handlePostChatMessage = useSendMessage();
+  const chatMessageHandler = useSendMessage();
+
+  useEffect(() => {
+    const rgb = [18, 34, 42];
+    const properties: [string, string] = ['--background-start-rgb', '--background-end-rgb'];
+    const bodyStyles = window.getComputedStyle(document.body);
+    const values: [string, string] = [
+      bodyStyles.getPropertyValue(properties.at(0)!),
+      bodyStyles.getPropertyValue(properties.at(1)!),
+    ];
+
+    if (config.session_loader_state === 'loaded') {
+      document.body.style.setProperty(properties.at(0)!, rgb.join(', '));
+      document.body.style.setProperty(properties.at(1)!, rgb.join(', '));
+    }
+
+    return () => {
+      document.body.style.setProperty(properties.at(0)!, values.at(0)!);
+      document.body.style.setProperty(properties.at(1)!, values.at(1)!);
+    };
+  }, [config.session_loader_state]);
 
   const handleChange = (message: string) => {
     setMessage(message);
   };
 
   const handleSend = async () => {
-    const outbound_message = message;
+    const outbound_message = message.trim();
 
     const newConversations = conversations.slice();
 
@@ -40,9 +62,7 @@ const Chat = () => {
     setConversations(newConversations);
     setMessage('');
 
-    const response = await handlePostChatMessage.mutateAsync({
-      message_body: outbound_message,
-    });
+    const response = await chatMessageHandler.mutateAsync({ message_body: outbound_message });
 
     const choices = response.data.response.choices;
 
@@ -61,12 +81,24 @@ const Chat = () => {
           <ChatBox justifyContent="center" alignItems="flex-end" flexDirection="column">
             <VStack width="full" height="full" alignItems="flex-start" py={4} fontSize="md" overflow="auto">
               {conversations.map((c, i) => {
-                return <ChatMesssage key={i} message={c.message} role={c.role} color="white" />;
+                const role = c.role === 'assistant' ? c.role : user ? fullname(user) : c.role;
+
+                return <ChatMesssage key={i} message={c.message} role={role} color="white" />;
               })}
+
+              {chatMessageHandler.isLoading && (
+                <ChatMesssage message={<FlowBalls />} role={'assistant'} color="white" />
+              )}
             </VStack>
 
             <Box px={3} width="full">
-              <ChatTextBox my={8} value={message} onChange={handleChange} onSend={handleSend} />
+              <ChatTextBox
+                my={8}
+                value={message}
+                onChange={handleChange}
+                onSend={handleSend}
+                isSendDisabled={chatMessageHandler.isLoading || message.trim() === ''}
+              />
             </Box>
           </ChatBox>
         </Flex>
